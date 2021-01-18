@@ -1,0 +1,5 @@
+﻿  Source.cpp
+C:\Users\tursi\source\repos\Continue with work\Krug.h(39,24): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\tursi\source\repos\Continue with work\Cilindar.h(23,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\tursi\source\repos\Continue with work\Cilindar.h(31,32): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Continue with work.vcxproj -> C:\Users\tursi\source\repos\Continue with work\Debug\Continue with work.exe

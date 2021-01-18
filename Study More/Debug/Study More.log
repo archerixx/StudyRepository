@@ -1,0 +1,5 @@
+﻿  Source.cpp
+  HeaderFj.cpp
+  Generating Code...
+C:\Users\tursi\source\repos\Study More\HeaderFj.cpp(94): warning C4172: returning address of local variable or temporary: sum
+  Study More.vcxproj -> C:\Users\tursi\source\repos\Study More\Debug\Study More.exe

@@ -32,5 +32,11 @@
     <ClInclude Include="Kolekcija.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Student.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Iznimci.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

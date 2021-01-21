@@ -1,4 +1,5 @@
 #pragma once
+#include "PolozeniPredmet.h"
 
 template <class T>
 class Kolekcija
@@ -26,7 +27,8 @@ public:
 		return trenutno;
 	}
 
-	friend std::ostream& operator<<(std::ostream& os, Kolekcija<T>& obj);
+	template <class M>
+	friend std::ostream& operator<<(std::ostream& os, Kolekcija<M>& obj);
 };
 
 template<class T>
@@ -81,10 +83,11 @@ inline bool Kolekcija<T>::removeElement(T& elem)
 	return false;
 }
 
-template<class T>
-std::ostream& operator<<(std::ostream& os, Kolekcija<T>& obj)
+template<class M>
+std::ostream& operator<<(std::ostream& os, Kolekcija<M>& obj)
 {
 	for (int i = 0; i < obj.trenutno; i++)
 		os << obj.elementi[i] << "\n";
 	return os;
 }
+

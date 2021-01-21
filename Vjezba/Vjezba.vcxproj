@@ -143,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Datum.h" />
+    <ClInclude Include="Iznimci.h" />
+    <ClInclude Include="Student.h" />
     <ClInclude Include="Kolekcija.h" />
     <ClInclude Include="PolozeniPredmet.h" />
     <ClInclude Include="Predmet.h" />

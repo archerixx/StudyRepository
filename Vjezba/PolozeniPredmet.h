@@ -10,6 +10,7 @@ private:
 public:
 	PolozeniPredmet();
 	PolozeniPredmet(int d, int m, int g, int ocjena, int ID, const char* nazivPredmeta, const char* nazivPredavaca);
+	PolozeniPredmet(int ID, const char* nazivPredmeta, const char* nazivPredavaca, Datum* date, int ocjena);
 	PolozeniPredmet(PolozeniPredmet& org);
 
 	bool operator==(PolozeniPredmet& obj);
@@ -28,6 +29,12 @@ PolozeniPredmet::PolozeniPredmet() :Predmet(0, "-", "-")
 PolozeniPredmet::PolozeniPredmet(int d, int m, int g, int ocjena, int ID, const char* nazivPredmeta, const char* nazivPredavaca) :Predmet(ID, nazivPredmeta, nazivPredavaca)
 {
 	datumPolaganja->setDatum(d, m, g);
+	this->ocjena = new int;
+	*this->ocjena = ocjena;
+}
+
+PolozeniPredmet::PolozeniPredmet(int ID, const char* nazivPredmeta, const char* nazivPredavaca, Datum* date, int ocjena) :Predmet(ID, nazivPredmeta, nazivPredavaca), datumPolaganja(date)
+{
 	this->ocjena = new int;
 	*this->ocjena = ocjena;
 }

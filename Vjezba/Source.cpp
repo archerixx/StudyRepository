@@ -3,6 +3,9 @@
 #include "Predmet.h"
 #include "PolozeniPredmet.h"
 #include "Kolekcija.h"
+#include "Student.h"
+#include <exception>
+#include "Iznimci.h"
 
 using namespace std;
 
@@ -17,29 +20,22 @@ const char* alociraj(const char* sadrzaj)
 
 
 int main()
-{
-	Datum * d = new Datum[3];
-	
-	d[0].setDatum(15, 12, 1996);
-
-	cout << d[0];
-
-//	Predmet p(1, "Mat", "Sabin");
-
-	//cout << p;
-
-	PolozeniPredmet pp1(15, 12, 1996, 10, 1, "Hemija", "Zerin");
-	PolozeniPredmet pp2(15, 12, 1996, 10, 1, "Biologija", "Emir");
-
-	
-	if (pp1 == pp2)
+{	
+	try
 	{
-		cout << "Isti";
+		Student s1(190038, alociraj("Zerin Tursic"));
+		Datum* d1 = new Datum(15, 1, 2020);
+
+		s1.dodajPolozeni(1, alociraj("Math"), alociraj("Zerin"), d1, 10);
+		s1.dodajPolozeni(1, alociraj("Bio"), alociraj("Berin"), d1, 8);
+
+		cout << s1;
+		
 	}
-
-	pp1.dodajPredavaca("Emir");
-
-	pp2 = pp1;
-
-	cout << endl <<  pp2;
+	catch (iznimka& a)
+	{
+		cout << a.getPoruka();
+	}
+	
+	
 }

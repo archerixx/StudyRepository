@@ -1,4 +1,6 @@
 #pragma once
+#include <exception>
+#include "Iznimci.h"
 
 class Predmet
 {
@@ -67,13 +69,11 @@ Predmet::~Predmet()
 void Predmet::dodajPredavaca(const char* imePredavaca)
 {
 	if (profBr == 5)
-		//throw exception("Prekoracen broj predavaca");
-		std::cout << "k";
+		throw iznimka("\nPrekoracen broj predavaca");
 	for (int i = 0; i < profBr; i++)
 	{
 		if (strcmp(nazivPredavaca[i], imePredavaca) == 0)
-			//throw exception("Predavac vec postoji");
-			std::cout << "k";
+			throw iznimka("\nPredavac vec postoji");
 	}
 	nazivPredavaca[profBr] = new char[strlen(imePredavaca) + 1];
 	strcpy_s(nazivPredavaca[profBr], strlen(imePredavaca) + 1, imePredavaca);

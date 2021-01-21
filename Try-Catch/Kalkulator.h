@@ -50,7 +50,35 @@ public:
 	}
 };
 
+class LosaOperacija
+{
+private:
+	int linijaCoda;
+	char lokacija[100];
+	char datum[100];
+	char vrijeme[100];
+	char poruka[100];
+	char funkcija[100];
+public:
+	LosaOperacija(int linija, const char* lokacija, const char* datum, const char* vrijeme, const char* poruka, const char* funkcija)
+	{
+		linijaCoda = linija;
+		strcpy_s(this->vrijeme, 100, vrijeme);
+		strcpy_s(this->datum, 100, datum);
+		strcpy_s(this->lokacija, 100, lokacija);
+		strcpy_s(this->poruka, 100, poruka);
+		strcpy_s(this->funkcija, 100, funkcija);
+	}
+	friend std::ostream& operator<<(std::ostream& os, LosaOperacija& obj);
+	
+};
 
+std::ostream& operator<<(std::ostream& os, LosaOperacija& obj)
+{
+	os << "Vrijeme: " << obj.datum << " " << obj.vrijeme << "\nFile: " << obj.lokacija << std::endl;
+	os << "Linija coda: " << obj.linijaCoda << "\nFunkcija: " << obj.funkcija << "\nGreska: " << obj.poruka << std::endl;
+	return os;
+}
 
 class Kalk
 {
@@ -74,11 +102,14 @@ public:
 		return suma;
 	}
 
-	double dijeli(double broj)
+	double dijeli(double broj) throw (DijeljenjeSaNulom, LosaOperacija) 
+		// da funkcija ne baca izuzetak: throw() ili noexcept
 	{
 		if (broj == 0)
-			throw DijeljenjeSaNulom(suma, "Nedozvoljena operacija dijeljenja sa nulom");
-		
+			//throw DijeljenjeSaNulom(suma, "Nedozvoljena operacija dijeljenja sa nulom");
+			//throw exception("Nedozvoljena operacija dijeljenja sa nulom");
+			//throw (broj)
+			throw LosaOperacija(__LINE__, __FILE__, __DATE__, __TIME__, "Nije dozvoljeno dijelitit sa nula", __FUNCTION__);
 		suma = suma / broj;
 		return suma;
 	}

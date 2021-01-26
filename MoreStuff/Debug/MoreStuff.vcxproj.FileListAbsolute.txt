@@ -1,0 +1,2 @@
+C:\Users\tursi\source\repos\MoreStuff\Debug\MoreStuff.exe
+C:\Users\tursi\source\repos\MoreStuff\Debug\MoreStuff.pdb

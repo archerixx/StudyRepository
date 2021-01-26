@@ -1,0 +1,4 @@
+﻿  Source.cpp
+C:\Users\tursi\source\repos\MoreStuff\Source.cpp(372,3): warning C4834: discarding return value of function with 'nodiscard' attribute
+C:\Users\tursi\source\repos\MoreStuff\Source.cpp(225,6): warning C4101: 'fk': unreferenced local variable
+  MoreStuff.vcxproj -> C:\Users\tursi\source\repos\MoreStuff\Debug\MoreStuff.exe

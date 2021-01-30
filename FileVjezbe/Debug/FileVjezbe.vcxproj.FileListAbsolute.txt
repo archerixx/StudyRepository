@@ -1,0 +1,2 @@
+C:\Users\tursi\source\repos\FileVjezbe\Debug\FileVjezbe.exe
+C:\Users\tursi\source\repos\FileVjezbe\Debug\FileVjezbe.pdb

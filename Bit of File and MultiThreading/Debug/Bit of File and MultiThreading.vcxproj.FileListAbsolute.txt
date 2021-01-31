@@ -1,0 +1,2 @@
+C:\Users\tursi\source\repos\Bit of File and MultiThreading\Debug\Bit of File and MultiThreading.exe
+C:\Users\tursi\source\repos\Bit of File and MultiThreading\Debug\Bit of File and MultiThreading.pdb

@@ -6,7 +6,7 @@
 using namespace std;
 
 const char* crt = "\n==============================================\n";
-/*
+
 struct Student
 {
 	int id;
@@ -26,8 +26,10 @@ void ispis(Student& s)
 	cout << "Ime studenta: " << s.ime << endl;
 	cout << "ID studenta " << s.id << endl;
 }
-*/
 
+
+//predzanje file vjezbe
+/*
 void UnosSadrzaja(const char* fileName)
 {
 	cout << crt << "Unos sadrzaja: " << crt;
@@ -47,7 +49,6 @@ void UnosSadrzaja(const char* fileName)
 	}
 	upis.close();
 }
-
 void PrikazSadrzaja(const char* fileName)
 {
 	cout << crt << "Ispis sadrzaja: " << crt;
@@ -65,7 +66,6 @@ void PrikazSadrzaja(const char* fileName)
 	}
 	ispis.close();
 }
-
 void dodavanjeSadrzaja(const char* fileName)
 {
 	cout << crt << "Dodavanje sadrzaja: " << crt;
@@ -85,7 +85,6 @@ void dodavanjeSadrzaja(const char* fileName)
 	}
 	dodaj.close();
 }
-
 void kopiranjeSadrzaja(const char* fileName)
 {
 	cout << crt << "Kopiranje sadzraja: " << crt;
@@ -114,7 +113,6 @@ void kopiranjeSadrzaja(const char* fileName)
 	copyFile.close();
 	unos.close();
 }
-
 int fileSize(const char * fileName)
 {
 	cout << crt << "Velicina file-a: " << crt;
@@ -134,7 +132,6 @@ int fileSize(const char * fileName)
 	ispis.close();
 	return velicina;
 }
-
 void pretragaSadrzajaChar(const char* fileName)
 {
 	cout << crt << "Ovdje ce se vrsiti pretraga karaktera u sadrzaju file-a: " << crt;
@@ -161,7 +158,6 @@ void pretragaSadrzajaChar(const char* fileName)
 	}
 	checkFile.fail();
 }
-
 void pretragaSadrzajaString(const char* fileName)
 {
 	cout << crt << "Ovdje ce se vrsiti pretraga rijeci u sadrzaju file-a: " << crt;
@@ -207,7 +203,6 @@ void pretragaSadrzajaString(const char* fileName)
 	cout << pronadjeno;
 	ispisFile.close();
 }
-
 void brisanjeSadrzaja(const char* fileName)
 {
 	cout << crt << "Ovdje ce se vrsiti brisanje sadrzaja iz file-a: " << crt;
@@ -218,7 +213,6 @@ void brisanjeSadrzaja(const char* fileName)
 		cout << crt << "Sadrzaj file-a " << fileName << " je obrisan" << crt;
 	fileOpen.close();
 }
-
 void showMenu(int& izbor)
 {
 	do
@@ -239,6 +233,9 @@ void showMenu(int& izbor)
 		system("cls");
 	} while (izbor < 1 || izbor >10);
 }
+*/
+
+
 
 int main()
 {
@@ -426,7 +423,7 @@ int main()
 	*/
 	
 	//binarni file
-	/*
+	
 	const int max = 20;
 	char imeFile[max];
 
@@ -452,7 +449,7 @@ int main()
 	objekatIspis.read((char*)(&sNew), sizeof(sNew));
 	ispis(sNew);
 	objekatIspis.close();
-	*/
+	
 
 	// nacin da se sadrzaj file-a prebaci u string
 	/*
@@ -473,6 +470,7 @@ int main()
 	//cout << fileSize(fileName);
 	*/
 
+	/*
 	int izbor=1;
 	int max = 30;
 	char fileName[30];
@@ -513,4 +511,7 @@ int main()
 		} while (izbor != 9 && izbor != 10);
 	} while (izbor != 10);
 	system("pause");
+	*/
+
+
 }

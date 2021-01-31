@@ -1,5 +1,2 @@
 ﻿  Source.cpp
-C:\Users\tursi\source\repos\FileVjezbe\Source.cpp(131,25): warning C4244: '=': conversion from 'std::streamoff' to 'int', possible loss of data
-C:\Users\tursi\source\repos\FileVjezbe\Source.cpp(162,16): warning C4834: discarding return value of function with 'nodiscard' attribute
-C:\Users\tursi\source\repos\FileVjezbe\Source.cpp(189,24): warning C4018: '<=': signed/unsigned mismatch
   FileVjezbe.vcxproj -> C:\Users\tursi\source\repos\FileVjezbe\Debug\FileVjezbe.exe

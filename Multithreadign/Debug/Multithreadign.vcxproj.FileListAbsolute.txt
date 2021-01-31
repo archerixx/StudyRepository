@@ -1,0 +1,2 @@
+C:\Users\tursi\source\repos\Multithreadign\Debug\Multithreading.exe
+C:\Users\tursi\source\repos\Multithreadign\Debug\Multithreading.pdb

@@ -66,27 +66,7 @@ void Draw()
 }
 void Input()
 {
-	if (_kbhit())
-	{
-		switch (_getch())
-		{
-		case 'a':
-			dir = LEFT;
-			break;
-		case 'd':
-			dir = RIGHT;
-			break;
-		case 'w':
-			dir = UP;
-			break;
-		case 's':
-			dir = DOWN;
-			break;
-		case 'x':
-			gameOver = true;
-			break;
-		}
-	}
+	
 }
 void Logic()
 {
@@ -106,22 +86,26 @@ void Logic()
 		prevX = prev2X;
 		prevY = prev2Y;
 	}
-	switch (dir)
+	if (_kbhit())
 	{
-	case LEFT:
-		x--;
-		break;
-	case RIGHT:
-		x++;
-		break;
-	case UP:
-		y--;
-		break;
-	case DOWN:
-		y++;
-		break;
-	default:
-		break;
+		switch (_getch())
+		{
+		case 'a':
+			x--;
+			break;
+		case 'd':
+			x++;
+			break;
+		case 'w':
+			y--;
+			break;
+		case 's':
+			y++;
+			break;
+		case 'x':
+			gameOver = true;
+			break;
+		}
 	}
 	//if (x > width || x < 0 || y > height || y < 0)
 	//	gameOver = true;
@@ -146,7 +130,7 @@ int main()
 	while (!gameOver)
 	{
 		Draw();
-		Input();
+		//Input();
 		Logic();
 		Sleep(100); //sleep(10);
 	}

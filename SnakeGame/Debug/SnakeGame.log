@@ -1,4 +1,2 @@
 ﻿  Source.cpp
-C:\Users\tursi\source\repos\SnakeGame\Source.cpp(95,6): warning C4101: 'prev2X': unreferenced local variable
-C:\Users\tursi\source\repos\SnakeGame\Source.cpp(95,14): warning C4101: 'prev2Y': unreferenced local variable
   SnakeGame.vcxproj -> C:\Users\tursi\source\repos\SnakeGame\Debug\SnakeGame.exe

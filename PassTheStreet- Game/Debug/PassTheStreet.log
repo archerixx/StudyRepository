@@ -1,3 +1,3 @@
 ﻿  Source.cpp
-C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(287,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(310,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   PassTheStreet.vcxproj -> C:\Users\tursi\source\repos\PassTheStreet- Game\Debug\PassTheStreet- Game.exe

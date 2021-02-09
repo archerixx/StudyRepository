@@ -9,10 +9,8 @@ const int width(30), height(16);
 int x = width / 2;
 int y = height;
 bool gameOver = false;
-const int maxH = height - 4;
-const int maxW = width/10;
+const int maxC = width/7;
 bool gameWon = false;
-
 
 void gui(int cars[][width])  //int &carA, int& carB, int &carC, int &carD, int &carE, int&carF)
 {
@@ -39,6 +37,29 @@ void gui(int cars[][width])  //int &carA, int& carB, int &carC, int &carD, int &
 			else
 			{
 				bool whiteSpacePrint = false;
+				bool samePlaceCar = false;
+				for (int cW = 0; cW < maxC; cW++)
+				{
+					if (j == cars[i][cW])
+					{
+						for (int p= 0; p<maxC; p++){
+							if (p!=cW)
+								if (cars[i][cW] == cars[i][p])
+								{
+									samePlaceCar = true;
+								}
+						}
+						if (samePlaceCar==false)
+						{ 
+							cout << "B";
+							whiteSpacePrint = true;
+						}
+					}
+					
+				}
+
+				if (whiteSpacePrint == false)
+					cout << " ";
 
 				/*
 				for (int cH = maxH/2, temp=1;  temp < maxH / 2, cH < maxH; cH++, temp++)
@@ -89,19 +110,6 @@ void gui(int cars[][width])  //int &carA, int& carB, int &carC, int &carD, int &
 					}
 				}
 				*/
-
-				for (int cW = 1; cW <width; cW++)
-				{
-					if (j == cars[i][cW])
-					{
-						cout << "B";
-						whiteSpacePrint = true;
-					}
-				}
-
-				if (whiteSpacePrint==false)
-					cout << " ";
-				
 				/*
 				if (i == height - 1 && j == carA)
 					cout << "B";
@@ -121,7 +129,6 @@ void gui(int cars[][width])  //int &carA, int& carB, int &carC, int &carD, int &
 					cout << " ";
 					*/
 			}
-			
 		}
 		cout << endl;
 	}
@@ -153,60 +160,76 @@ void movement()
 
 void gameLogic(int cars[][width])   //int &carA, int &carB, int& carC, int& carD, int& carE, int& carF)
 {
+	//pobjeda ili poraz
 	if (y < 0)
 	{
 		gameOver = true;
 		gameWon = true;
 	}
 	
+	//car hit
 	for (int cH = 1; cH < height; cH++)
 	{
-		for (int cW = 0; cW < width; cW++)
+		for (int cW = 0; cW < maxC; cW++)
 		{
 			if (cH == y && cars[cH][cW]==x)
 				gameOver = true;
 		}
 	}
 	
-	/*
-	for (int p = 0; p < height - 4; p++)
+	//car movement (2 lanes different directions)
+	for (int cH = 0; cH < height/2; cH++)
 	{
-		if (cars[p] == x)
-			gameOver = true;
-	}
-	*/
-	/*
-	for (int k = 0; k < maxH; k++)
-	{ 
-		cars[k]++;
-		if (cars[k] == width)
-			cars[k] = 0;
-	}
-	*/
-	
-	for (int cH = 0; cH < height; cH++)
-	{
-		
-		for (int cW=0; cW < width/10; cW++)
+		for (int cW=0; cW < maxC; cW++)
 		{ 
+			int rBroj = rand() % 2;
 			cars[cH][cW]++;
 			if (cars[cH][cW] == width)
-				cars[cH][cW] = 0;
+			{
+				if (rBroj == 0)
+					cars[cH][cW] = 0;
+				else
+				{
+					cars[cH][cW] = -5;
+				}
+			}
 		}
 	}
 	
-	/*
 	for (int cH = height/2; cH < height; cH++)
 	{
-
-		for (int cW = 0; cW <= width; cW++)
+		for (int cW = 0; cW < maxC; cW++)
 		{
+			int rBroj = rand() % 2;
 			cars[cH][cW]--;
 			if (cars[cH][cW] == 0)
-				cars[cH][cW] = width;
+			{
+				if (rBroj == 0)
+					cars[cH][cW] = width;
+				else
+				{
+					cars[cH][cW] = width + 5;
+				}
+			}
 		}
 	}
-	*/
+
+	
+	/*
+for (int p = 0; p < height - 4; p++)
+{
+	if (cars[p] == x)
+		gameOver = true;
+}
+*/
+	/*
+for (int k = 0; k < maxH; k++)
+{
+	cars[k]++;
+	if (cars[k] == width)
+		cars[k] = 0;
+}
+*/
 	// tri reda u obe strane
 	/*
 	for (int cH = 0; cH < height / 2-4; cH++)
@@ -300,7 +323,6 @@ int main()
 		cars[i] = rand() % 20;
 	}
 	*/
-
 	/*
 	int cars[maxH][maxW];
 	for (int i = 0; i < maxH; i++)
@@ -317,32 +339,28 @@ int main()
 	int cars[height][width];
 	for (int i = 1; i < height; i++)
 	{
-		for (int j=1; j <width/10; j++)
+		for (int j=0; j <maxC; j++)
 		{
 			if (i != height / 2 - 1 && i != height / 2 + 1 && i != height / 2)
 			{
 				cars[i][j] = rand() % (width-2);
-				
-				if (j > 0)
-				{
-					
-						while(cars[i][j] == (cars[i][j - 1] + 1) && cars[i][j] == (cars[i][j - 1] -1))
-						{
-							cars[i][j] = rand() % (width - 2);
-						}
-				}
-				
+				//if (j > 0)
+				//{
+				//		while(cars[i][j] == cars[i][j - 1])  //cars[i][j] == (cars[i][j - 1] + 1) || cars[i][j] == (cars[i][j - 1] -1) || cars[i][j] == cars[i][j - 1])
+				//		{
+				//			cars[i][j] = rand() % (width - 2);
+				//		}
+				//}
 			}
 		}
 	}
-
 
 	while (!gameOver)
 	{
 		gui(cars);
 		movement();
 		gameLogic(cars);
-		Sleep(100);
+		Sleep(0);
 	}
 		
 	if (gameOver == true && gameWon == true)
@@ -351,8 +369,4 @@ int main()
 		cout << "YOU LOST";
 
 	cin.get();
-	cin.get();
-	cin.get();
-	cin.get();
-
 }

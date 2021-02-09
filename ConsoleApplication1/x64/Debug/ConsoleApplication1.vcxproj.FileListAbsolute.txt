@@ -1,0 +1,2 @@
+C:\Users\tursi\source\repos\ConsoleApplication1\x64\Debug\ConsoleApplication1.exe
+C:\Users\tursi\source\repos\ConsoleApplication1\x64\Debug\ConsoleApplication1.pdb

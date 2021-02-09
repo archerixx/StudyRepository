@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const int width(50), height(16);
+const int width(30), height(16);
 int x = width / 2;
 int y = height;
 bool gameOver = false;
@@ -28,7 +28,11 @@ void gui(int cars[][width])  //int &carA, int& carB, int &carC, int &carD, int &
 				
 				cout << "-";
 			}
-			else if (j == 0 || j == width)
+			else if (j == 0)
+			{
+				cout << "|";
+			}
+			else if (j == width)
 			{
 				cout << "|";
 			}
@@ -47,8 +51,6 @@ void gui(int cars[][width])  //int &carA, int& carB, int &carC, int &carD, int &
 
 				}
 				*/
-				
-				
 				/*
 				for (int cH = 0; cH < maxH/2; cH++)
 				{
@@ -74,6 +76,7 @@ void gui(int cars[][width])  //int &carA, int& carB, int &carC, int &carD, int &
 					}
 				}
 				*/
+				/*
 				for (int cH = 0; cH <= height; cH++)
 				{
 					for (int cW = 0; cW <= width; cW++)
@@ -85,9 +88,18 @@ void gui(int cars[][width])  //int &carA, int& carB, int &carC, int &carD, int &
 						}
 					}
 				}
+				*/
 
+				for (int cW = 1; cW <width; cW++)
+				{
+					if (j == cars[i][cW])
+					{
+						cout << "B";
+						whiteSpacePrint = true;
+					}
+				}
 
-				if (!whiteSpacePrint)
+				if (whiteSpacePrint==false)
 					cout << " ";
 				
 				/*
@@ -171,24 +183,30 @@ void gameLogic(int cars[][width])   //int &carA, int &carB, int& carC, int& carD
 			cars[k] = 0;
 	}
 	*/
+	
 	for (int cH = 0; cH < height; cH++)
 	{
 		
-		for (int cW=0; cW <= width; cW++)
+		for (int cW=0; cW < width/10; cW++)
 		{ 
 			cars[cH][cW]++;
 			if (cars[cH][cW] == width)
 				cars[cH][cW] = 0;
 		}
-		/*
-		for (int cW = 0; cW < width; cW+=2)
+	}
+	
+	/*
+	for (int cH = height/2; cH < height; cH++)
+	{
+
+		for (int cW = 0; cW <= width; cW++)
 		{
 			cars[cH][cW]--;
 			if (cars[cH][cW] == 0)
 				cars[cH][cW] = width;
 		}
-		*/
 	}
+	*/
 	// tri reda u obe strane
 	/*
 	for (int cH = 0; cH < height / 2-4; cH++)
@@ -299,11 +317,21 @@ int main()
 	int cars[height][width];
 	for (int i = 1; i < height; i++)
 	{
-		for (int j = 1; j < width/7; j++)
+		for (int j=1; j <width/10; j++)
 		{
 			if (i != height / 2 - 1 && i != height / 2 + 1 && i != height / 2)
 			{
-				cars[i][j] = rand() % width;
+				cars[i][j] = rand() % (width-2);
+				
+				if (j > 0)
+				{
+					
+						while(cars[i][j] == (cars[i][j - 1] + 1) && cars[i][j] == (cars[i][j - 1] -1))
+						{
+							cars[i][j] = rand() % (width - 2);
+						}
+				}
+				
 			}
 		}
 	}

@@ -1,3 +1,8 @@
 ﻿  Source.cpp
-C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(43,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(17,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(100,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(123,20): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(190,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(203,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\tursi\source\repos\PassTheStreet- Game\Source.cpp(238,36): warning C4018: '<': signed/unsigned mismatch
   PassTheStreet.vcxproj -> C:\Users\tursi\source\repos\PassTheStreet- Game\Debug\PassTheStreet- Game.exe

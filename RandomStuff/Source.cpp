@@ -8,6 +8,7 @@
 
 using namespace std;
 
+/*
 class dani {
 	string dan;
 public:
@@ -42,6 +43,23 @@ double stepen(double x, int n)
 		return p;
 	return 1 / p;
 }
+*/
+
+void mjes(int& m);
+
+void getV(const vector<vector<int>>& v)
+{
+	for (size_t i = 0; i < v.size(); i++)
+		cout << i << " ";
+
+	cout << endl;
+
+	size_t sum = 0;
+	for (const vector<int>& i : v) {
+		sum += i.size();
+	}
+	cout << sum/v.size() << endl;
+}
 
 int main()
 {
@@ -51,6 +69,7 @@ int main()
 	dan = pet;
 	cout << dan;
 	*/
+	/*
 	char a = 'a';
 	//fj(a);
 
@@ -59,6 +78,7 @@ int main()
 	//cout << stepen(2, 10);
 
 	//getch() - ceka pritisak na tipku
+	
 	while (a == '\n')
 	{ 
 		if (_getch())
@@ -67,8 +87,37 @@ int main()
 			 cout << "\nPritisak na tipku\n";
 		}
 	}
+	*/
+
+	
+//	int m;
+//	mjes(m);
+	
+	//const int& a = 5;
+	//cout << a;
+
+	const int h = 5;
+	const int w = 3;
+	vector<vector<int>> v(h, vector<int>(w));
+
+	getV(v);
 }
 
+void mjes(int& m)
+{
+	cout << "Unes: ";
+	while (1)
+	{
+		cin >> m;
+		if (m >= 1 && m <= 12)
+			return;
+		cout << "Neispravan unos ";
+		if (!cin) cin.clear();
+		cin.ignore(100000000, '\n');
+	}
+}
+
+/*
 void fj2(Dan dan)
 {
 	Dan pocetni_Dan = Sri;
@@ -87,3 +136,4 @@ void fj2(Dan dan)
 		}
 	}
 }
+*/

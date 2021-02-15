@@ -42,6 +42,104 @@ double stepen(double x, int n)
 		return p;
 	return 1 / p;
 }
+<<<<<<< Updated upstream
+=======
+*/
+
+void mjes(int& m);
+bool provjera(int niz[], int vel, int broj);
+
+void getV(const vector<vector<int>>& v)
+{
+	for (size_t i = 0; i < v.size(); i++)
+		cout << i << " ";
+
+	cout << endl;
+
+	size_t sum = 0;
+	for (const vector<int>& i : v) {
+		sum += i.size();
+	}
+	cout << sum/v.size() << endl;
+}
+>>>>>>> Stashed changes
+
+double UnesiKolicinu()
+{
+	for (;;)
+	{
+		double kolicina;
+		cout << "Unesi: ";
+		cin >> kolicina;
+		bool dobar_unos = cin && kolicina >= 0;
+		if (!cin) cin.clear();
+		cin.ignore(1000, '\n');
+		if (dobar_unos) return kolicina;
+		cout << "Neispravno. ";
+	}
+}
+
+/*
+void sabirciBroja(int n, int k)
+{
+	static int niz[100], index(0);
+	if (k == 1)
+	{
+		for (int i = 0; i < index; i++)
+			cout << niz[i] << "+";
+		cout << n << endl;
+	}
+	else
+	{
+		for (int i = 1; i <= n -k+1; i++)
+		{
+			niz[index] = i;
+			index++;
+			sabirciBroja(n - i, k - 1);
+			index--;
+		}
+	}
+}
+*/
+void premutacija(int n, int k)
+{
+	static int niz[100], index(0);
+	if (k == 1)
+	{
+		if (provjera(niz, index, n))
+		{ 
+		for (int i = 0; i < index; i++)
+			cout << niz[i] << ",";
+		cout << n << endl;
+		}
+	}
+	else
+	{
+		for (int i = 1; i <= n - k + 1; i++)
+		{
+			if (provjera(niz, index, i))
+			{
+				niz[index] = i;
+			
+			index++;
+			premutacija(n - i, k - 1);
+			index--;
+			}
+		}
+	}
+}
+
+bool provjera(int niz[], int vel, int broj)
+{
+	for (int i=0; i < vel+1; i++)
+	{
+		if (niz[i]==broj)
+			return false;
+	}
+	return true;
+}
+
+// {1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}
 
 int main()
 {
@@ -67,6 +165,71 @@ int main()
 			 cout << "\nPritisak na tipku\n";
 		}
 	}
+<<<<<<< Updated upstream
+=======
+	*/
+	/*
+//	int m;
+//	mjes(m);
+	
+	//const int& a = 5;
+	//cout << a;
+
+	//const int h = 5;
+	//const int w = 3;
+	//vector<vector<int>> v(h, vector<int>(w));
+	//getV(v);
+	*/
+	/*
+	//cout << UnesiKolicinu();
+	
+	char a;
+	//cin.get(a);
+	cin >> a;
+	bool dobar_unos = cin || a==4;// && a >= 0;
+
+	bool losUnos = !cin;
+	if (losUnos)
+		cout << "treba opet";
+
+	if (dobar_unos)
+		cout << "oke";
+	else
+		cout << "not";
+
+	cout << endl << a;
+	*/
+	/*
+	bool a = false;
+
+	if (a == true)
+		cout << "oke";
+	else if(!a)
+		cout << "it is true?";
+		*/
+
+	//int broj = 6, brojSabiraka=3;
+	//sabirciBroja(broj, brojSabiraka);
+
+	int sab = 4, broj=0;
+	for (int b = 1; b <= sab; b++)
+		broj += b;
+	premutacija(broj, sab);
+}
+
+void mjes(int& m)
+{
+	cout << "Unes: ";
+	while (1)
+	{
+		cin >> m;
+		if (m >= 1 && m <= 12)
+			return;
+		cout << "Neispravan unos ";
+		if (!cin) cin.clear();
+		cin.ignore(100000000, '\n');
+	}
+>>>>>>> Stashed changes
 }
 
 void fj2(Dan dan)

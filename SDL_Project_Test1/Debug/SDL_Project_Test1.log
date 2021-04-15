@@ -1,0 +1,4 @@
+﻿  Source.cpp
+Source.obj : error LNK2019: unresolved external symbol _SDL_CreateWindow referenced in function _SDL_main
+MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol _main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
+C:\Users\tursi\source\repos\SDL_Project_Test1\Debug\SDL_Project_Test1.exe : fatal error LNK1120: 2 unresolved externals

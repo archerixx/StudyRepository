@@ -42,9 +42,6 @@ double stepen(double x, int n)
 		return p;
 	return 1 / p;
 }
-<<<<<<< Updated upstream
-=======
-*/
 
 void mjes(int& m);
 bool provjera(int niz[], int vel, int broj);
@@ -62,7 +59,6 @@ void getV(const vector<vector<int>>& v)
 	}
 	cout << sum/v.size() << endl;
 }
->>>>>>> Stashed changes
 
 double UnesiKolicinu()
 {
@@ -139,7 +135,65 @@ bool provjera(int niz[], int vel, int broj)
 	return true;
 }
 
-// {1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}
+void fjS(string a)
+{
+	cout << "lala";
+}
+
+struct strakt {
+	bool foo();
+};
+
+bool strakt::foo() {
+	bool b = true;
+	cout << "Bool je tu";
+	return b;
+}
+
+unsigned int fjoo(unsigned int a, unsigned int b) {
+	if (a == 0)
+	{
+		return b + 1;
+	}
+	else
+	{
+		if (b == 0)
+		{
+			return fjoo(a - 1, 1);
+		}
+		else
+		{
+			return fjoo(a - 1, fjoo(a, b - 1));
+		}
+	}
+	
+}
+
+struct textStruct {
+	string text;
+	textStruct *newTextStruct;
+
+	void addText(textStruct*, string);
+	void printText(textStruct*);
+};
+
+
+
+void textStruct::addText(textStruct* temp, string text) {
+	while (temp->newTextStruct != nullptr)
+	{
+		temp = temp->newTextStruct;
+	}
+	temp->newTextStruct = new textStruct{ text, nullptr };
+}
+
+void textStruct::printText(textStruct* t) {
+	while (t != nullptr)
+	{
+		cout << t->text;
+		t = t->newTextStruct;
+	}
+}
 
 int main()
 {
@@ -149,29 +203,29 @@ int main()
 	dan = pet;
 	cout << dan;
 	*/
-	char a = 'a';
+	//char a = 'a';
 	//fj(a);
-
+	/*
 	//fj2(Sri);
 
 	//cout << stepen(2, 10);
 
 	//getch() - ceka pritisak na tipku
+	*/
+	/*
 	while (a == '\n')
-	{ 
+	{
 		if (_getch())
-		{ 
+		{
 			cin >> a;
 			 cout << "\nPritisak na tipku\n";
 		}
 	}
-<<<<<<< Updated upstream
-=======
 	*/
 	/*
 //	int m;
 //	mjes(m);
-	
+
 	//const int& a = 5;
 	//cout << a;
 
@@ -182,7 +236,7 @@ int main()
 	*/
 	/*
 	//cout << UnesiKolicinu();
-	
+
 	char a;
 	//cin.get(a);
 	cin >> a;
@@ -206,7 +260,7 @@ int main()
 		cout << "oke";
 	else if(!a)
 		cout << "it is true?";
-		*/
+
 
 	//int broj = 6, brojSabiraka=3;
 	//sabirciBroja(broj, brojSabiraka);
@@ -215,6 +269,40 @@ int main()
 	for (int b = 1; b <= sab; b++)
 		broj += b;
 	premutacija(broj, sab);
+	*/
+	//string s = "Oho";
+	//char n[20] = "Ehej";
+	//fjS(n);
+	/*
+	strakt oh;
+	bool eh = oh.foo();
+
+	int i = 0;
+
+	while (oh.foo()) {
+		cout << "inifit";
+	}
+	*/
+	/*
+	unsigned int a = 3;
+	unsigned int b = 10;
+	int c = 0;
+
+	cout << fjoo(a, b);
+	*/
+
+	textStruct t1 = {"text", nullptr};
+	string a = "ok";
+	string b = "not";
+	string c = "eh";
+	t1.addText(&t1, a);
+	cout << t1.newTextStruct->text;
+	t1.addText(&t1, b);
+	cout << t1.newTextStruct->newTextStruct->text;
+	t1.addText(&t1, c);
+	cout << t1.newTextStruct->newTextStruct->newTextStruct->text;
+
+	//t1.printText(&t1);
 }
 
 void mjes(int& m)
@@ -229,7 +317,6 @@ void mjes(int& m)
 		if (!cin) cin.clear();
 		cin.ignore(100000000, '\n');
 	}
->>>>>>> Stashed changes
 }
 
 void fj2(Dan dan)

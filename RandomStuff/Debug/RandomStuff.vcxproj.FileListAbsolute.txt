@@ -1,2 +1,1 @@
 C:\Users\tursi\source\repos\RandomStuff\Debug\RandomStuff.exe
-C:\Users\tursi\source\repos\RandomStuff\Debug\RandomStuff.pdb

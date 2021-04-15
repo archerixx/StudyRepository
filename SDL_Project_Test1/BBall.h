@@ -27,11 +27,12 @@ private:
 	bool onRightWallAbove = false;
 	bool onLeftBrickSide = false;
 	bool onRightBrickSide = false;
-	bool onDestroyedBrickBelow = false;
-	bool onDestroyedBrickLeft = false;
-	//bool onDestroyedBrickRight = false;
 
 	BBricks* gBrick = new BBricks;
+
+	int BrickColums;
+	int YellowBrick_Y_End;
+
 
 public:
 

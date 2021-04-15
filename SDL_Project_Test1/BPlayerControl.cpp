@@ -4,7 +4,7 @@
 BPlayerControl::BPlayerControl()
 {
     //setting starting position of board
-    mPosition.x = 370;
+    mPosition.x = 350;
     mPosition.y = 570;
 
     loadBoardMedia();

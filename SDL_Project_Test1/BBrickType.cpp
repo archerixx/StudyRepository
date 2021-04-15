@@ -17,10 +17,7 @@ BBrickType::BBrickType(char bID, const char* bTexture, int bHitPoints)
 	//breakSound = bBreakSound;
 	//breakScore = bBreakScore;
 }
-void BBrickType::clearTexture()
-{
-	BrickSoftYellowTexture.clearTexture();
-}
+
 /*
 BBrickType::~BBrickType()
 {
@@ -164,3 +161,18 @@ bool BBrickType::loadYellowBrickMediaTest()
 
 }
 */
+
+void BBrickType::clearYellowTexture()
+{
+	BrickSoftYellowTexture.clearTexture();
+}
+
+void BBrickType::clearBlueTexture()
+{
+	BrickMediumBlueTexture.clearTexture();
+}
+
+void BBrickType::clearRedTexture()
+{
+	BrickHardRedTexture.clearTexture();
+}

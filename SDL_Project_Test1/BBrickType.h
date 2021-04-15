@@ -18,8 +18,6 @@ public:
 	//Destructor
 	//~BBrickType();
 
-	void clearTexture();
-
 	//SET functions for private variables
 	void setBrickID(char bID);
 	void setBrickTexturePath(const char* bTexture);
@@ -49,6 +47,10 @@ public:
 	bool loadYellowBrickMedia(const char* path);
 	bool loadBlueBrickMedia(const char* path);
 	bool loadRedBrickMedia(const char* path);
+
+	void clearYellowTexture();
+	void clearBlueTexture();
+	void clearRedTexture();
 
 	//void renderYellowBrickTest(int x, int y);
 	//bool loadYellowBrickMediaTest();

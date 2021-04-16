@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BLevel.cpp">
       <Filter>Source Files\Breakout</Filter>
     </ClCompile>
@@ -47,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="BBricks.cpp">
       <Filter>Source Files\Breakout</Filter>
+    </ClCompile>
+    <ClCompile Include="BSound.cpp">
+      <Filter>Source Files\Breakout</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,9 +95,6 @@
     <ClInclude Include="BGame.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="BTexture.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
@@ -108,6 +108,12 @@
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
     <ClInclude Include="BBricks.h">
+      <Filter>Source Files\Breakout</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Source Files\SDL_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="BSound.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
   </ItemGroup>

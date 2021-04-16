@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BBricks.h"
+#include "BSound.h"
 
 class BBall : public BBricks
 {
@@ -15,6 +16,8 @@ private:
 	SDL_Point bBallPreviousPosition;
 
 	BTexture ballTexture;
+
+	
 
 	//ball states
 	bool onLeftBoardSide = false;
@@ -35,7 +38,11 @@ private:
 
 	int Score;
 
+	BSound gSound;
+
 public:
+
+	BTexture scoreTexture;
 
 	BBricks* getBrick()
 	{
@@ -45,8 +52,10 @@ public:
 	BBall();
 
 	void setScore(int addScore);
-
 	int getScore();
+
+	bool loadScoreMedia(int score);
+	BTexture* getScoreTexture();
 
 	void setBallPoint(int x= BALL_START_POSITION_X, int y = BALL_START_POSITION_Y);
 	

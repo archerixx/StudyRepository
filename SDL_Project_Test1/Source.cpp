@@ -5,9 +5,13 @@
 SDL_Window* baseWindow = NULL;
 //The window renderer
 SDL_Renderer* baseRenderer = NULL;
+//Globally used font
+TTF_Font* baseFont = NULL;
 
 //game object
 BGame game;
+
+BSound gSound;
 
 void startGame();
 
@@ -36,8 +40,11 @@ void startGame()
         else
         {
 
+            int tempScore = 0;
+
             BBall gBall;
             BPlayerControl gPlayer;
+            gSound.loadMusic();
 
             //Main loop flag
             bool quit = false;
@@ -65,6 +72,44 @@ void startGame()
                     {
                         start = true;
                     }
+
+                    //Handle key press
+                    else if (e.type == SDL_KEYDOWN)
+                    {
+                        switch (e.key.keysym.sym)
+                        {
+                        case SDLK_9:
+                            //If there is no music playing
+                            if (Mix_PlayingMusic() == 0)
+                            {
+                                //Play the music
+                                Mix_PlayMusic(gSound.gMusic, -1);
+                            }
+                            //If music is being played
+                            else
+                            {
+                                //If the music is paused
+                                if (Mix_PausedMusic() == 1)
+                                {
+                                    //Resume the music
+                                    Mix_ResumeMusic();
+                                }
+                                //If the music is playing
+                                else
+                                {
+                                    //Pause the music
+                                    Mix_PauseMusic();
+                                }
+                            }
+                            break;
+
+                        case SDLK_0:
+                            //Stop the music
+                            Mix_HaltMusic();
+                            break;
+                        }
+                    }
+
                 }
                 if (start)
                 {
@@ -83,6 +128,8 @@ void startGame()
                         gBall.getBrick()->getHardRedBrick(i)->renderRedBrick(gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
                     }
 
+                    tempScore = gBall.getScore();
+
                     gBall.ballMovementAndCollision(gPlayer.getBoardPosition().x, gPlayer.getBoardPosition().y);
 
                     if (gBall.getBrick()->getLevel()->getBallLifes() == 0)
@@ -93,6 +140,12 @@ void startGame()
                     {
                         start = false;
                     }
+
+                    if (gBall.getScore() > tempScore)
+                    {
+                        gBall.loadScoreMedia(gBall.getScore());
+                    }
+                    gBall.getScoreTexture()->renderTexture(700, 600);
 
                     SDL_Delay(2);
 
@@ -123,6 +176,10 @@ void startGame()
 
                     //Render player board
                     gPlayer.renderPlayerBoard();
+
+                    //Render current frame
+                    gBall.getScoreTexture()->renderTexture(700, 600);
+                    //gTextTexture.renderTexture(700, 600);
 
                     //Update screen
                     SDL_RenderPresent(baseRenderer);

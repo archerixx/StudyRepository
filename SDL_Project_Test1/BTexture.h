@@ -22,6 +22,9 @@ public:
     //Loads image at specified path
     bool loadFromFile(const char* path);
 
+    //Creates image from font string
+    bool loadFromRenderedText(const char* textureText, SDL_Color textColor);
+
     //Deallocates texture
     void clearTexture();
 

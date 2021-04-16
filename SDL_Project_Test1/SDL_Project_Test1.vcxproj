@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\VisualStudio_libraries\SDL2-2.0.14\include;C:\VisualStudio_libraries\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\VisualStudio_libraries\SDL2_image-2.0.5\lib\x64;C:\VisualStudio_libraries\SDL2-2.0.14\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\VisualStudio_libraries\SDL2_ttf-2.0.15\include;C:\VisualStudio_libraries\SDL2_mixer-2.0.4\include;C:\VisualStudio_libraries\SDL2-2.0.14\include;C:\VisualStudio_libraries\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\VisualStudio_libraries\SDL2_ttf-2.0.15\lib\x64;C:\VisualStudio_libraries\SDL2_mixer-2.0.4\lib\x64;C:\VisualStudio_libraries\SDL2_image-2.0.5\lib\x64;C:\VisualStudio_libraries\SDL2-2.0.14\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -122,7 +122,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,6 +151,7 @@
     <ClCompile Include="BBrickType.cpp" />
     <ClCompile Include="BBall.cpp" />
     <ClCompile Include="BBricks.cpp" />
+    <ClCompile Include="BSound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeometricRender.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="game-test1.h" />
     <ClInclude Include="BBall.h" />
     <ClInclude Include="BBricks.h" />
+    <ClInclude Include="BSound.h" />
     <ClInclude Include="MouseMotion.h" />
     <ClInclude Include="RotationTexture.h" />
     <ClInclude Include="BLevel.h" />

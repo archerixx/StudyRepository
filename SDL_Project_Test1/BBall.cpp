@@ -1,4 +1,5 @@
 #include "BBall.h"
+#include <string>
 
 BBall::BBall()
 {
@@ -12,7 +13,11 @@ BBall::BBall()
 
 	loadBallMedia();
 
+	loadScoreMedia(Score);
+
 	*lifeLost = false;
+
+	gSound.loadMusic();
 }
 
 void BBall::setScore(int addScore)
@@ -23,6 +28,39 @@ void BBall::setScore(int addScore)
 int BBall::getScore()
 {
 	return this->Score;
+}
+
+bool BBall::loadScoreMedia(int score)
+{
+	//Loading success flag
+	bool success = true;
+
+	//Open the font
+	baseFont = TTF_OpenFont("SDL_Image_Imports/BOD_PSTC.ttf", 26);
+	if (baseFont == NULL)
+	{
+		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+		success = false;
+	}
+	else
+	{
+		//Render text
+		SDL_Color textColor = { 255, 111, 111 };
+		//std::string s = std::to_string(1);
+		//char const* pchar = (std::to_string(1)).c_str();  //use char const* as target type
+		if (!scoreTexture.loadFromRenderedText((std::to_string(score)).c_str(), textColor))
+		{
+			printf("Failed to render text texture!\n");
+			success = false;
+		}
+	}
+
+	return success;
+}
+
+BTexture* BBall::getScoreTexture()
+{
+	return &scoreTexture;
 }
 
 void BBall::setBallPoint(int x, int y)
@@ -66,11 +104,13 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)//, BBricks gBrick
 		if ((bBallPosition.x+BALL_WIDTH) > board_x && bBallPosition.x <= (board_x + (getBoardWidth() / 2)))
 		{
 			stateReset();
+			Mix_PlayChannel(-1, gSound.gMedium, 0);
 			onLeftBoardSide = true;
 		}
 		//check if ball is on right side of board
 		else if (bBallPosition.x > (board_x + (getBoardWidth() / 2)) && bBallPosition.x < (board_x + getBoardWidth()))
 		{
+			Mix_PlayChannel(-1, gSound.gMedium, 0);
 			stateReset();
 			onRightBoardSide = true;
 		}
@@ -546,6 +586,7 @@ void BBall::stateReset()
 
 void BBall::removeYellowBricks(int index)
 {
+	Mix_PlayChannel(-1, gSound.gLow, 0);
 	getBrick()->getSoftYellowBrick(index)->setHitPoints(getBrick()->getSoftYellowBrick(index)->getHitPoints() - 1);
 	if (getBrick()->getSoftYellowBrick(index)->getHitPoints() == 0)
 	{ 
@@ -557,7 +598,8 @@ void BBall::removeYellowBricks(int index)
 }
 
 void BBall::removeBlueBricks(int index)
-{                       
+{               
+	Mix_PlayChannel(-1, gSound.gLow, 0);
 	getBrick()->getMediumBlueBrick(index)->setHitPoints(getBrick()->getMediumBlueBrick(index)->getHitPoints() - 1);
 	if (getBrick()->getMediumBlueBrick(index)->getHitPoints() == 0)
 	{ 
@@ -570,6 +612,7 @@ void BBall::removeBlueBricks(int index)
 
 void BBall::removeRedBricks(int index)
 {
+	Mix_PlayChannel(-1, gSound.gLow, 0);
 	getBrick()->getHardRedBrick(index)->setHitPoints(getBrick()->getHardRedBrick(index)->getHitPoints() - 1);
 	if (getBrick()->getHardRedBrick(index)->getHitPoints() == 0)
 	{ 

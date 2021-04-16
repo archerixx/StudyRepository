@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <iostream>
 
 
@@ -9,6 +10,8 @@
 extern SDL_Window* baseWindow;
 //The window renderer
 extern SDL_Renderer* baseRenderer;
+//Globally used font
+extern TTF_Font* baseFont;
 
 class BGraphics
 {

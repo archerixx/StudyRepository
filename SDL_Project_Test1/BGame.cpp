@@ -1,7 +1,9 @@
 #include "BGame.h"
+#include <string>
 
 //Texture objects
 BTexture baseBackgroundTexture;
+BTexture gTextTexture;
 
 bool BGame::initWindow()
 {
@@ -9,7 +11,7 @@ bool BGame::initWindow()
     bool success = true;
 
     //Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO))
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
     {
         std::cout << "SDL could not initialize! SDL_Error: %s\n", SDL_GetError();
         success = false;
@@ -44,6 +46,20 @@ bool BGame::initWindow()
                     printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
                     success = false;
                 }
+
+                //Initialize SDL_mixer
+                if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+                {
+                    printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+                    success = false;
+                }
+
+                //Initialize SDL_ttf
+                if (TTF_Init() == -1)
+                {
+                    printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+                    success = false;
+                }
             }
         }
     }
@@ -71,6 +87,7 @@ bool BGame::loadMedia()
         success = false;
     }
     */
+
     return success;
 }
 
@@ -90,7 +107,19 @@ void BGame::closeWindow()
     baseRenderer = NULL;
     baseWindow = NULL;
 
+    //Free global font
+    TTF_CloseFont(baseFont);
+    baseFont = NULL;
+
+    /*
+    //Free the music
+    Mix_FreeMusic(gMusic);
+    gMusic = NULL;
+    */
+
     //Quit SDL subsystems
+    TTF_Quit();
+    Mix_Quit();
     IMG_Quit();
     SDL_Quit();
 }

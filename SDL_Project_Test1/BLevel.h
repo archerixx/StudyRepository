@@ -9,6 +9,7 @@ private:
 	int RowSpacing;
 	int ColumnSpacing;
 	const char* BackGroundTexture;
+	int ballLifes;
 
 public:
 	BLevel();
@@ -19,4 +20,7 @@ public:
 	int getRowSpacing() const;
 	int getColumtSpacing() const;
 	const char* getBackGroundTexture() const;
+
+	void setBallLifes(int lifesLeft);
+	int getBallLifes();
 };

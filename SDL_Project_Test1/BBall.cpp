@@ -1,9 +1,8 @@
 #include "BBall.h"
-#include <cmath>
 
 BBall::BBall()
 {
-	bBallPosition.x = 400;
+	bBallPosition.x = 360;
 	bBallPosition.y = 560;
 	bBallPreviousPosition = bBallPosition;
 
@@ -12,6 +11,18 @@ BBall::BBall()
 	gBrick->setRedBrick();
 
 	loadBallMedia();
+
+	*lifeLost = false;
+}
+
+void BBall::setScore(int addScore)
+{
+	this->Score += addScore;
+}
+
+int BBall::getScore()
+{
+	return this->Score;
 }
 
 void BBall::setBallPoint(int x, int y)
@@ -38,28 +49,33 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)//, BBricks gBrick
 {
 	//show/renderTexture ball
 	renderBall(bBallPosition.x, bBallPosition.y);
-	
-	BrickColums = getBrick()->getLevel().getColumnCount();
-	//YellowBrick_Y_End = getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1);
+
+	if (*lifeLost)
+	{
+		*lifeLost = false;
+		bBallPosition.x = board_x + getBoardWidth()/2;
+		bBallPosition.y = board_y - BALL_HEIGHT;
+	}
 
 	/*
 		Ball starts from board, first read is if ball has hit board and if game continues
 	*/
-	if ((bBallPosition.y+BALL_HEIGHT)  >= board_y && (bBallPosition.y + BALL_HEIGHT) <= (board_y+getBoardHeight()))
+	if (((bBallPosition.y+BALL_HEIGHT) >= board_y) && (bBallPosition.y + BALL_HEIGHT) <= (board_y+getBoardHeight()/5))
 	{
-		stateReset();
 		//check if ball is on left side of board
 		if ((bBallPosition.x+BALL_WIDTH) > board_x && bBallPosition.x <= (board_x + (getBoardWidth() / 2)))
 		{
-			
+			stateReset();
 			onLeftBoardSide = true;
 		}
 		//check if ball is on right side of board
-		if (bBallPosition.x > (board_x + (getBoardWidth() / 2)) && bBallPosition.x < (board_x + getBoardWidth()))
+		else if (bBallPosition.x > (board_x + (getBoardWidth() / 2)) && bBallPosition.x < (board_x + getBoardWidth()))
 		{
+			stateReset();
 			onRightBoardSide = true;
 		}
 	}
+
 	//if on left board side
 	if (onLeftBoardSide)
 	{
@@ -176,7 +192,7 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)//, BBricks gBrick
 	/*
 		Check if ball hit bricks and removes it
 	*/
-	for (int i = 0; i < BrickColums; i++)
+	for (int i = 0; i < getBrick()->getLevel()->getColumnCount(); i++)
 	{
 		//checks if ball hits yellow bricks on Y-axis
 		if (bBallPosition.y < getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) && 
@@ -489,7 +505,6 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)//, BBricks gBrick
 
 	if (onLeftBrickSide == true)
 	{
-		
 		bBallPreviousPosition = bBallPosition;
 		bBallPosition.x++;
 		bBallPosition.y++;
@@ -500,6 +515,12 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)//, BBricks gBrick
 		bBallPreviousPosition = bBallPosition;
 		bBallPosition.x--;
 		bBallPosition.y++;
+	}
+
+	if (bBallPosition.y > 600)
+	{
+		getBrick()->getLevel()->setBallLifes(getBrick()->getLevel()->getBallLifes() - 1);
+		*lifeLost = true;
 	}
 
 }
@@ -525,21 +546,41 @@ void BBall::stateReset()
 
 void BBall::removeYellowBricks(int index)
 {
-	getBrick()->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
-	getBrick()->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
-	getBrick()->getSoftYellowBrick(index)->clearYellowTexture();
+	getBrick()->getSoftYellowBrick(index)->setHitPoints(getBrick()->getSoftYellowBrick(index)->getHitPoints() - 1);
+	if (getBrick()->getSoftYellowBrick(index)->getHitPoints() == 0)
+	{ 
+		setScore(getBrick()->getSoftYellowBrick(index)->getBreakScore());
+		getBrick()->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
+		getBrick()->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
+		getBrick()->getSoftYellowBrick(index)->clearYellowTexture();
+	}
 }
 
 void BBall::removeBlueBricks(int index)
-{
-	getBrick()->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
-	getBrick()->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
-	getBrick()->getMediumBlueBrick(index)->clearBlueTexture();
+{                       
+	getBrick()->getMediumBlueBrick(index)->setHitPoints(getBrick()->getMediumBlueBrick(index)->getHitPoints() - 1);
+	if (getBrick()->getMediumBlueBrick(index)->getHitPoints() == 0)
+	{ 
+		setScore(getBrick()->getMediumBlueBrick(index)->getBreakScore());
+		getBrick()->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
+		getBrick()->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
+		getBrick()->getMediumBlueBrick(index)->clearBlueTexture();
+	}
 }
 
 void BBall::removeRedBricks(int index)
 {
-	getBrick()->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
-	getBrick()->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
-	getBrick()->getHardRedBrick(index)->clearRedTexture();
+	getBrick()->getHardRedBrick(index)->setHitPoints(getBrick()->getHardRedBrick(index)->getHitPoints() - 1);
+	if (getBrick()->getHardRedBrick(index)->getHitPoints() == 0)
+	{ 
+		setScore(getBrick()->getHardRedBrick(index)->getBreakScore());
+		getBrick()->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
+		getBrick()->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
+		getBrick()->getHardRedBrick(index)->clearRedTexture();
+	}
+}
+
+int BBall::getBallSize() const
+{
+	return BALL_HEIGHT;
 }

@@ -22,6 +22,8 @@ public:
     //load Board image/texture
     bool loadBoardMedia();
 
+    BGraphics BGraph;
+
 private:
     //coordinateds of start position
     SDL_Point mPosition;

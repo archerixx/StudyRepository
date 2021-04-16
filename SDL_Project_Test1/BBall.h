@@ -33,6 +33,7 @@ private:
 	int BrickColums;
 	int YellowBrick_Y_End;
 
+	int Score;
 
 public:
 
@@ -42,6 +43,10 @@ public:
 	}
 
 	BBall();
+
+	void setScore(int addScore);
+
+	int getScore();
 
 	void setBallPoint(int x= BALL_START_POSITION_X, int y = BALL_START_POSITION_Y);
 	
@@ -56,4 +61,8 @@ public:
 	void removeYellowBricks(int index);
 	void removeBlueBricks(int index);
 	void removeRedBricks(int index);
+
+	int getBallSize() const;
+
+	bool* lifeLost = new bool;
 };

@@ -7,6 +7,7 @@ BLevel::BLevel()
 	RowSpacing = 5;
 	ColumnSpacing = 5;
 	BackGroundTexture = "SDL_Image_Imports/Breakout_Layout.png";
+	ballLifes = 3;
 }
 
 BLevel::BLevel(int RC, int CC, int RS, int CS, const char* BGT)
@@ -41,4 +42,14 @@ int BLevel::getColumtSpacing() const
 const char* BLevel::getBackGroundTexture() const
 {
 	return BackGroundTexture;
+}
+
+void BLevel::setBallLifes(int lifesLeft)
+{
+	this->ballLifes = lifesLeft;
+}
+
+int BLevel::getBallLifes()
+{
+	return ballLifes;
 }

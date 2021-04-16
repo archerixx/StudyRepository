@@ -18,7 +18,7 @@ BBrickType* BBricks::getHardRedBrick(int element)
 void BBricks::setYellowBrick()
 {
     
-    for (int i = 0, j = getBricksWidthStart(); i < Level_1.getColumnCount(); i++, j += getBrickWidth()+Level_1.getRowSpacing())
+    for (int i = 0, j = getBricksWidthStart(); i < Level_1->getColumnCount(); i++, j += getBrickWidth()+Level_1->getRowSpacing())
     {
         //set brick ID
         BrickSoftYellow[i].setBrickID('S');
@@ -26,6 +26,7 @@ void BBricks::setYellowBrick()
         BrickSoftYellow[i].setBrickTexturePath("SDL_Image_Imports/Yellow_Brick.png");
         //set brick Hit Points
         BrickSoftYellow[i].setHitPoints(1);
+        BrickSoftYellow[i].setBreakScore(10);
 
         //assign X and Y boarders of each bricks
         //will be used later for ball/bricks collision detection
@@ -45,7 +46,7 @@ void BBricks::setYellowBrick()
 void BBricks::setBlueBrick()
 {
 
-    for (int i = 0, j = getBricksWidthStart(); i < Level_1.getColumnCount(); i++, j += getBrickWidth() + Level_1.getRowSpacing())
+    for (int i = 0, j = getBricksWidthStart(); i < Level_1->getColumnCount(); i++, j += getBrickWidth() + Level_1->getRowSpacing())
     {
         //set brick ID
         BrickMediumBlue[i].setBrickID('M');
@@ -53,6 +54,7 @@ void BBricks::setBlueBrick()
         BrickMediumBlue[i].setBrickTexturePath("SDL_Image_Imports/Blue_Brick.png");
         //set brick Hit Points
         BrickMediumBlue[i].setHitPoints(2);
+        BrickMediumBlue[i].setBreakScore(30);
 
         //assign X and Y boarders of each bricks
         //will be used later for ball/bricks collision detection
@@ -72,7 +74,7 @@ void BBricks::setBlueBrick()
 void BBricks::setRedBrick()
 {
 
-    for (int i = 0, j = getBricksWidthStart(); i < Level_1.getColumnCount(); i++, j += getBrickWidth() + Level_1.getRowSpacing())
+    for (int i = 0, j = getBricksWidthStart(); i < Level_1->getColumnCount(); i++, j += getBrickWidth() + Level_1->getRowSpacing())
     {
         //set brick ID
         BrickHardRed[i].setBrickID('H');
@@ -80,6 +82,7 @@ void BBricks::setRedBrick()
         BrickHardRed[i].setBrickTexturePath("SDL_Image_Imports/Red_Brick.png");
         //set brick Hit Points
         BrickHardRed[i].setHitPoints(3);
+        BrickHardRed[i].setBreakScore(50);
 
         //assign X and Y boarders of each bricks
         //will be used later for ball/bricks collision detection
@@ -96,7 +99,7 @@ void BBricks::setRedBrick()
     }
 }
 
-BLevel BBricks::getLevel()
+BLevel* BBricks::getLevel()
 {
     return Level_1;
 }

@@ -5,6 +5,7 @@ BBrickType::BBrickType()
 	this->brickID = 0;
 	this->brickTexturePath = "";
 	this->hitPoints = 0;
+	this->BreakScore = 0;
 	//BrickSoftYellowTextureTest = NULL;
 }
 
@@ -39,6 +40,11 @@ void BBrickType::setHitPoints(int bHitPoints)
 	this->hitPoints = bHitPoints;
 }
 
+void BBrickType::setBreakScore(int bScore)
+{
+	this->BreakScore = bScore;
+}
+
 int BBrickType::getBrickID() const
 {
 	return brickID;
@@ -52,6 +58,11 @@ const char* BBrickType::getBrickTexturePath() const
 int BBrickType::getHitPoints() const
 {
 	return hitPoints;
+}
+
+int BBrickType::getBreakScore()
+{
+	return BreakScore;
 }
 
 void BBrickType::setBrickBoarderOn_X_Element(int index, int element)

@@ -44,6 +44,9 @@ void startGame()
             //Event handler
             SDL_Event e;
 
+            //Start game flag
+            bool start = false;
+
             //While application is running
             while (!quit)
             {
@@ -57,34 +60,79 @@ void startGame()
                     }
                     //Handle button events
                     gPlayer.handleEvent(&e);
+                    
+                    if (e.type == SDL_MOUSEBUTTONUP)
+                    {
+                        start = true;
+                    }
                 }
-
-                //Clear screen
-                SDL_SetRenderDrawColor(baseRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-                SDL_RenderClear(baseRenderer);
-
-                //Render background texture to screen
-                baseBackgroundTexture.renderTexture(0, 0);                
-
-                for (int i = 0; i < 11; i++)
+                if (start)
                 {
-                    gBall.getBrick()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
-                    gBall.getBrick()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
-                    gBall.getBrick()->getHardRedBrick(i)->renderRedBrick(gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
+
+                    //Clear screen
+                    SDL_SetRenderDrawColor(baseRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                    SDL_RenderClear(baseRenderer);
+
+                    //Render background texture to screen
+                    baseBackgroundTexture.renderTexture(0, 0);
+
+                    for (int i = 0; i < 11; i++)
+                    {
+                        gBall.getBrick()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
+                        gBall.getBrick()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
+                        gBall.getBrick()->getHardRedBrick(i)->renderRedBrick(gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
+                    }
+
+                    gBall.ballMovementAndCollision(gPlayer.getBoardPosition().x, gPlayer.getBoardPosition().y);
+
+                    if (gBall.getBrick()->getLevel()->getBallLifes() == 0)
+                    {
+                        break;
+                    }
+                    else if (*gBall.lifeLost == true)
+                    {
+                        start = false;
+                    }
+
+                    SDL_Delay(2);
+
+                    //Render player board
+                    gPlayer.renderPlayerBoard();
+
+                    //Update screen
+                    SDL_RenderPresent(baseRenderer);
+                }
+                else
+                {
+                    //Clear screen
+                    SDL_SetRenderDrawColor(baseRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                    SDL_RenderClear(baseRenderer);
+
+                    //Render background texture to screen
+                    baseBackgroundTexture.renderTexture(0, 0);
+
+                    for (int i = 0; i < 11; i++)
+                    {
+                        gBall.getBrick()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
+                        gBall.getBrick()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
+                        gBall.getBrick()->getHardRedBrick(i)->renderRedBrick(gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
+                    }
+
+                    gBall.renderBall(gPlayer.getBoardPosition().x + gPlayer.BGraph.getBoardWidth() / 2, gPlayer.getBoardPosition().y - gBall.getBallSize());
+                    gBall.setBallPoint(gPlayer.getBoardPosition().x + gPlayer.BGraph.getBoardWidth() / 2, gPlayer.getBoardPosition().y - gBall.getBallSize());
+
+                    //Render player board
+                    gPlayer.renderPlayerBoard();
+
+                    //Update screen
+                    SDL_RenderPresent(baseRenderer);
                 }
 
-                gBall.ballMovementAndCollision(gPlayer.getBoardPosition().x, gPlayer.getBoardPosition().y);
-
-                SDL_Delay(2);
-
-                //Render player board
-                gPlayer.renderPlayerBoard();
-
-                //Update screen
-                SDL_RenderPresent(baseRenderer);
             }
+            std::cout << gBall.getScore();
         }
     }
+
     //Free resources and close SDL
     game.closeWindow();
 }

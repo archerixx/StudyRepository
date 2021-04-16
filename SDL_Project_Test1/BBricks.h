@@ -12,7 +12,7 @@ private:
 	BBrickType BrickHardRed[11];
 
 	//Level 1
-	BLevel Level_1;
+	BLevel* Level_1 = new BLevel;
 
 	//Bricks row start positions on Y axis
 	const int BrickSoftYellow_Y_Start = 200;
@@ -33,6 +33,6 @@ public:
 	void setBlueBrick();
 	void setRedBrick();
 
-	BLevel getLevel();
+	BLevel* getLevel();
 
 };

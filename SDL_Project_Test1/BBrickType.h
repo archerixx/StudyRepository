@@ -22,11 +22,13 @@ public:
 	void setBrickID(char bID);
 	void setBrickTexturePath(const char* bTexture);
 	void setHitPoints(int bHitPoints);
+	void setBreakScore(int bScore);
 
 	//GET function for private vraiables
 	int getBrickID() const;
 	const char* getBrickTexturePath() const;
 	int getHitPoints() const;
+	int getBreakScore();
 
 	//set element of Pixel Array for X or Y axis
 	void setBrickBoarderOn_X_Element(int index, int element);
@@ -66,7 +68,7 @@ private:
 	int hitPoints;
 	//char hitSound;
 	//char breakSound;
-	//int breakScore;
+	int BreakScore;
 
 
 

@@ -2,12 +2,15 @@
 
 #include "BTexture.h"
 
-class BPlayerControl : protected BGraphics, public BTexture
+class BPlayerControl : public BGraphics
 {
 public:
+    //Constructor
     BPlayerControl();
+    //Destructor
+    ~BPlayerControl();
 
-    //SET start position 
+    //SET board start position 
     void setBoardPosition(int x, int y);
 
     //GET current board position
@@ -16,19 +19,19 @@ public:
     //mouse event/movement
     void handleEvent(SDL_Event* e);
 
-    //shows player board, moving around
+    //render player board
     void renderPlayerBoard();
 
     //load Board image/texture
     bool loadBoardMedia();
 
-    BGraphics BGraph;
-
 private:
     //coordinateds of start position
-    SDL_Point mPosition;
+    SDL_Point bBoardPosition;
 
     //player board texture
-    BTexture player_Board;
+    BTexture* player_Board;
 
+    //board media path
+    const char* board_Media;
 };

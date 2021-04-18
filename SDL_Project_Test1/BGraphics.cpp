@@ -1,15 +1,5 @@
 #include "BGraphics.h"
 
-int BGraphics::getScreenWidth() const
-{
-	return SCREEN_WIDTH;
-}
-
-int BGraphics::getScreenHeight() const
-{
-	return SCREEN_HEIGHT;
-}
-
 int BGraphics::getGametableWidth() const
 {
 	return GAMETABLE_WIDTH;
@@ -77,7 +67,7 @@ int BGraphics::getBoardWidth() const
 
 int BGraphics::getBoardHeight() const
 {
-	return BOARD_WIDTH;
+	return BOARD_HEIGHT;
 }
 
 int BGraphics::getBrickWidthSpacing() const

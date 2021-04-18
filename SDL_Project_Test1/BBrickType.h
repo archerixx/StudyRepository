@@ -2,80 +2,66 @@
 
 #include "BTexture.h"
 
-//extern BTexture BrickSoftYellowTexture;
-//extern BTexture BrickMediumBlueTexture;
-//extern BTexture BrickHardRedTexture;
-
-class BBrickType : protected BGraphics  //, public BTexture
+class BBrickType
 {
-
 public:
-
-	//Constructors
+	//Constructor
 	BBrickType();
-	BBrickType(char bID, const char* bTexture, int bHitPoints);
 
 	//Destructor
-	//~BBrickType();
+	~BBrickType();
 
 	//SET functions for private variables
-	void setBrickID(char bID);
 	void setBrickTexturePath(const char* bTexture);
 	void setHitPoints(int bHitPoints);
 	void setBreakScore(int bScore);
 
 	//GET function for private vraiables
-	int getBrickID() const;
 	const char* getBrickTexturePath() const;
 	int getHitPoints() const;
-	int getBreakScore();
+	int getBreakScore() const;
 
-	//set element of Pixel Array for X or Y axis
+	//SET boarder element for X or Y axis
 	void setBrickBoarderOn_X_Element(int index, int element);
 	void setBrickBoarderOn_Y_Element(int index, int element);
 
-	//GET functions for Pixel Array element
-	int getBrickBoarderOn_X_Element(int element);
-	int getBrickBoarderOn_Y_Element(int element);
+	//GET boarder element on X/Y axis
+	int getBrickBoarderOn_X_Element(int element) const;
+	int getBrickBoarderOn_Y_Element(int element) const;
 
-	//SET/GET function for BTexture BrickSoftYellowTexture
-	void setYellowBrickTexture(BTexture& texture);
-	BTexture getYellowBrickTexture();
+	//update/move bricks on y-axis
+	void updateBrickBoarder_Y_axis(int y);
 
+	//render bricks
 	void renderYellowBrick(int x, int y);
 	void renderBlueBrick(int x, int y);
 	void renderRedBrick(int x, int y);
 
+	//load media for bricks
 	bool loadYellowBrickMedia(const char* path);
 	bool loadBlueBrickMedia(const char* path);
 	bool loadRedBrickMedia(const char* path);
 
+	//clear brick texture media
 	void clearYellowTexture();
 	void clearBlueTexture();
 	void clearRedTexture();
 
-	//void renderYellowBrickTest(int x, int y);
-	//bool loadYellowBrickMediaTest();
-
-		//Bricks texture
-	BTexture BrickSoftYellowTexture;
-	BTexture BrickMediumBlueTexture;
-	BTexture BrickHardRedTexture;
-
 private: 
-	char brickID;
+	//brick testure path
 	const char* brickTexturePath;
+	//brick hit points
 	int hitPoints;
-	//char hitSound;
-	//char breakSound;
-	int BreakScore;
+	//brick break gameScore
+	int breakScore;
 
-
-
-	//X and Y boarders of brick
+	//Boarders of brick on X and Y axis
 	int BrickBoarderOn_X[2] = {0};
 	int BrickBoarderOn_Y[2] = {0};
 
-	//	BTexture* BrickSoftYellowTextureTest = new BTexture;
+	//Bricks texture
+	BTexture* BrickSoftYellowTexture;
+	BTexture* BrickMediumBlueTexture;
+	BTexture* BrickHardRedTexture;
 };
 

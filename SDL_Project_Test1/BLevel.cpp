@@ -2,54 +2,76 @@
 
 BLevel::BLevel()
 {
-	RowCount = 3;
-	ColumnCount = 11;
-	RowSpacing = 5;
-	ColumnSpacing = 5;
-	BackGroundTexture = "SDL_Image_Imports/Breakout_Layout.png";
-	ballLifes = 3;
+	brickRowCount = 3;
+	brickColumnCount = 11;
+	brickRowSpacing = 5;
+	brickColumnSpacing = 5;
+	backgroundTexture = "SDL_Image_Imports/retro_arcade_background.png";
+	ballLives = 3;
 }
 
-BLevel::BLevel(int RC, int CC, int RS, int CS, const char* BGT)
+BLevel::BLevel(int rowCount, int columnCount, int rowSpacing, int columnSpacing, const char* backGroundTexture, int ballLives)
 {
-	RowCount = RC;
-	ColumnCount = CC;
-	RowSpacing = RS;
-	ColumnSpacing = CS;
-	BackGroundTexture = BGT;
+	this->brickRowCount = rowCount;
+	this->brickColumnCount = columnCount;
+	this->brickRowSpacing = rowSpacing;
+	this->brickColumnSpacing = columnSpacing;
+	this->backgroundTexture = backGroundTexture;
+	this->ballLives = ballLives;
 }
 
+/*
+	GETs
+*/
 int BLevel::getRowCount() const
 {
-	return RowCount;
+	return brickRowCount;
 }
-
 int BLevel::getColumnCount() const
 {
-	return ColumnCount;
+	return brickColumnCount;
 }
-
 int BLevel::getRowSpacing() const
 {
-	return RowSpacing;
+	return brickRowSpacing;
 }
-
 int BLevel::getColumtSpacing() const
 {
-	return ColumnSpacing;
+	return brickColumnSpacing;
 }
-
 const char* BLevel::getBackGroundTexture() const
 {
-	return BackGroundTexture;
+	return backgroundTexture;
+}
+int BLevel::getBallLifes() const
+{
+	return ballLives;
 }
 
+/*
+	SETs
+*/
+void BLevel::setBrickRowCount(int rowCount)
+{
+	this->brickRowCount = rowCount;
+}
+void BLevel::setBrickColumnCount(int columnCount)
+{
+	this->brickColumnCount = columnCount;
+}
+void BLevel::setBrickRowSpacing(int rowSpacing)
+{
+	this->brickRowSpacing = rowSpacing;
+}
+void BLevel::setbrickColumnSpacing(int columnSpacing)
+{
+	this->brickColumnSpacing = columnSpacing;
+}
+void BLevel::setBackgroundTexture(const char* backgroundTexture)
+{
+	this->backgroundTexture = backgroundTexture;
+}
 void BLevel::setBallLifes(int lifesLeft)
 {
-	this->ballLifes = lifesLeft;
-}
-
-int BLevel::getBallLifes()
-{
-	return ballLifes;
+	this->ballLives = lifesLeft;
 }

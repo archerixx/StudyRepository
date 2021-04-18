@@ -5,8 +5,9 @@
 
 class BSound
 {
-
 public:
+	~BSound();
+
 	//The music that will be played
 	Mix_Music* gMusic = NULL;
 
@@ -14,5 +15,8 @@ public:
 	Mix_Chunk* gMedium = NULL;
 	Mix_Chunk* gLow = NULL;
 
-	bool loadMusic();
+	//load music media
+	bool loadMusicMedia();
+
+	void handleMusicEvent(SDL_Event* e);
 };

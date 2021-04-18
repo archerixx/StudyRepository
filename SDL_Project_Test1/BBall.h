@@ -5,20 +5,82 @@
 
 class BBall : public BBricks
 {
+public:
+	BBall();
+	~BBall();
+
+	//load bacground media
+	bool loadBackgroundMedia(const char* path);
+	void renderBackground(int x = 0, int y = 0);
+
+	//set ball position
+	void setBallPoint(int x, int y);
+	//get ball size
+	int getBallSize() const;
+
+	//load ball media
+	bool loadBallMedia();
+	//render ball
+	void renderBall(int x, int y);
+
+	//get BBrick object
+	BBricks* getBrick();
+	//get BSound object
+	BSound* getSound();
+
+	//responsible for ball movement, collision, brick destruction, gameScore and lives
+	void ballMovementAndCollision(int board_x, int board_y);
+	void stateReset();
+
+	//removes brick from gametable
+	void removeYellowBricks(int index);
+	void removeBlueBricks(int index);
+	void removeRedBricks(int index);
+
+	// SET/GET gameScore
+	void setScore(int addScore);
+	int getScore();
+
+	//get hit counter
+	int getHitCounter();
+
+	//get state of lifeLost
+	bool getLifeLostState();
+
+	//load font media for gameScore
+	bool loadScoreMedia(int gameScore);
+	BTexture* getScoreTexture();
+
+	//qualify function name from BGraphics class
+	BGraphics::getBoardWidth;
+
 private:
-	const int BALL_WIDTH = 10;
-	const int BALL_HEIGHT = 10;
+	//background texture
+	BTexture* baseBackgroundTexture;
 
-	static const int BALL_START_POSITION_X = 400;
-	static const int BALL_START_POSITION_Y = 560;
+	//ball size
+	const int BALL_SIZE = 10;
 
+	//ball position in game on X and Y axis
 	SDL_Point bBallPosition;
 	SDL_Point bBallPreviousPosition;
 
-	BTexture ballTexture;
+	//game gameScore
+	int gameScore;
+	//brick hit counter
+	int brickHitCounter;
+	//life state
+	bool lifeLost;
 
+	//text/font for score texture
+	BTexture* scoreTexture;
+	//ball texture
+	BTexture* ballTexture;
+
+	//classess used in this header
+	BBricks* gBrick;
+	BSound* gSound;
 	
-
 	//ball states
 	bool onLeftBoardSide = false;
 	bool onRightBoardSide = false;
@@ -28,50 +90,4 @@ private:
 	bool onTopWallRight = false;
 	bool onRightWallBelow = false;
 	bool onRightWallAbove = false;
-	bool onLeftBrickSide = false;
-	bool onRightBrickSide = false;
-
-	BBricks* gBrick = new BBricks;
-
-	int BrickColums;
-	int YellowBrick_Y_End;
-
-	int Score;
-
-	BSound gSound;
-
-public:
-
-	BTexture scoreTexture;
-
-	BBricks* getBrick()
-	{
-		return gBrick;
-	}
-
-	BBall();
-
-	void setScore(int addScore);
-	int getScore();
-
-	bool loadScoreMedia(int score);
-	BTexture* getScoreTexture();
-
-	void setBallPoint(int x= BALL_START_POSITION_X, int y = BALL_START_POSITION_Y);
-	
-	bool loadBallMedia();
-
-	void renderBall(int x, int y);
-
-	void ballMovementAndCollision(int board_x, int board_y);
-
-	void stateReset();
-
-	void removeYellowBricks(int index);
-	void removeBlueBricks(int index);
-	void removeRedBricks(int index);
-
-	int getBallSize() const;
-
-	bool* lifeLost = new bool;
 };

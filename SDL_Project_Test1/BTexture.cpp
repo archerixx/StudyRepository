@@ -1,6 +1,5 @@
 #include "BTexture.h"
 
-
 BTexture::BTexture()
 {
     //Initialize
@@ -15,13 +14,22 @@ BTexture::~BTexture()
     clearTexture();
 }
 
+void BTexture::clearTexture()
+{
+    //Clear texture if it exists
+    if (iTexture != NULL)
+    {
+        SDL_DestroyTexture(iTexture);
+        iTexture = NULL;
+        iWidth = 0;
+        iHeight = 0;
+    }
+}
+
 bool BTexture::loadFromFile(const char* path)
 {
     //Get rid of preexisting texture
     clearTexture();
-
-    //The final texture
-    //SDL_Texture* newTexture = NULL;
 
     //Load image at specified path
     SDL_Surface* loadedSurface = IMG_Load(path);
@@ -52,7 +60,6 @@ bool BTexture::loadFromFile(const char* path)
     }
 
     //Return success
-    //iTexture = newTexture;
     return iTexture != NULL;
 }
 
@@ -65,18 +72,15 @@ bool BTexture::loadFromRenderedText(const char* textureText, SDL_Color textColor
     SDL_Surface* textSurface = TTF_RenderText_Solid(baseFont, textureText, textColor);
     if (textSurface == NULL)
     {
-        printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+        std::cout << "Unable to render text surface! SDL_ttf Error: %s\n" << TTF_GetError();
     }
     else
     {
-        //Color key image, blends specific color of image (in this case "black")
-        SDL_SetColorKey(textSurface, SDL_TRUE, SDL_MapRGB(textSurface->format, 0, 0, 0));
-
         //Create texture from surface pixels
         iTexture = SDL_CreateTextureFromSurface(baseRenderer, textSurface);
         if (iTexture == NULL)
         {
-            printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+            std::cout << "Unable to create texture from rendered text! SDL Error: %s\n" << SDL_GetError();
         }
         else
         {
@@ -93,51 +97,9 @@ bool BTexture::loadFromRenderedText(const char* textureText, SDL_Color textColor
     return iTexture != NULL;
 }
 
-void BTexture::clearTexture()
-{
-    //Clear texture if it exists
-    if (iTexture != NULL)
-    {
-        SDL_DestroyTexture(iTexture);
-        iTexture = NULL;
-        iWidth = 0;
-        iHeight = 0;
-    }
-}
-
 void BTexture::renderTexture(int x, int y)
 {
-    //Set rendering space and renderTexture to screen (x, y represent position and iWidth/iHeight size of texture)
+    //Set rendering space and renders texture to screen (x, y represent position and iWidth/iHeight size of texture)
     SDL_Rect renderQuad = { x, y, iWidth, iHeight };
     SDL_RenderCopy(baseRenderer, iTexture, NULL, &renderQuad);
-}
-
-int BTexture::getTextureWidth() const
-{
-    return iWidth;
-}
-
-int BTexture::getTextureHeight() const
-{
-    return iHeight;
-}
-
-BTexture& BTexture::operator=(const BTexture& org)
-{
-    //if 
-    if (this == &org)
-    {
-        return *this;
-    }
-    else
-    {
-        SDL_DestroyTexture(iTexture);
-        iTexture = NULL;
-
-        this->iTexture = org.iTexture;
-        this->iWidth = org.iWidth;
-        this->iHeight = org.iHeight;
-
-        return *this;
-    }
 }

@@ -23,19 +23,19 @@ public:
 
 private:
     //coordinateds of start position
-    SDL_Point mPosition;
+    SDL_Point bBoardPosition;
 };
 
 BPlayerControl::BPlayerControl()
 {
-    mPosition.x = 370;
-    mPosition.y = 570;
+    bBoardPosition.x = 370;
+    bBoardPosition.y = 570;
 }
 
 void BPlayerControl::setBoardPosition(int x, int y)
 {
-    mPosition.x = x;
-    mPosition.y = y;
+    bBoardPosition.x = x;
+    bBoardPosition.y = y;
 }
 
 void BPlayerControl::handleEvent(SDL_Event* e)
@@ -51,25 +51,25 @@ void BPlayerControl::handleEvent(SDL_Event* e)
         switch (e->type)
         {
         case SDL_MOUSEMOTION:
-            if (x < mPosition.x)
+            if (x < bBoardPosition.x)
             {
-                mPosition.x = mPosition.x - 10;
-                if (mPosition.x == 90)
-                    mPosition.x = mPosition.x + 10;
+                bBoardPosition.x = bBoardPosition.x - 10;
+                if (bBoardPosition.x == 90)
+                    bBoardPosition.x = bBoardPosition.x + 10;
                 inside = false;
             }
-            else if (x > mPosition.x + game.getBoardWidth())
+            else if (x > bBoardPosition.x + game.getBoardWidth())
             {
-                mPosition.x = mPosition.x + 10;
-                if (mPosition.x == 610)
-                    mPosition.x = mPosition.x - 10;
+                bBoardPosition.x = bBoardPosition.x + 10;
+                if (bBoardPosition.x == 610)
+                    bBoardPosition.x = bBoardPosition.x - 10;
                 inside = false;
             }
-            else if (y < mPosition.y)
+            else if (y < bBoardPosition.y)
             {
                 inside = false;
             }
-            else if (y > mPosition.y + game.getBoardHeight())
+            else if (y > bBoardPosition.y + game.getBoardHeight())
             {
                 inside = false;
             }
@@ -81,7 +81,7 @@ void BPlayerControl::handleEvent(SDL_Event* e)
 
 void BPlayerControl::renderTexture()
 {
-    player_Board.renderTexture(mPosition.x, mPosition.y);
+    player_Board.renderTexture(bBoardPosition.x, bBoardPosition.y);
 }
 
 BPlayerControl gButtons;

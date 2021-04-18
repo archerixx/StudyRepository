@@ -180,7 +180,7 @@ public:
 
 private:
     //Top left position
-    SDL_Point mPosition;
+    SDL_Point bBoardPosition;
 
     //Currently used global sprite
     LButtonSprite mCurrentSprite;
@@ -188,16 +188,16 @@ private:
 
 LButton::LButton()
 {
-    mPosition.x = 0;
-    mPosition.y = 0;
+    bBoardPosition.x = 0;
+    bBoardPosition.y = 0;
 
     mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
 }
 
 void LButton::setPosition(int x, int y)
 {
-    mPosition.x = x;
-    mPosition.y = y;
+    bBoardPosition.x = x;
+    bBoardPosition.y = y;
 }
 
 void LButton::handleEvent(SDL_Event* e)
@@ -213,22 +213,22 @@ void LButton::handleEvent(SDL_Event* e)
         bool inside = true;
 
         //Mouse is left of the button
-        if (x < mPosition.x)
+        if (x < bBoardPosition.x)
         {
             inside = false;
         }
         //Mouse is right of the button
-        else if (x > mPosition.x + BUTTON_WIDTH)
+        else if (x > bBoardPosition.x + BUTTON_WIDTH)
         {
             inside = false;
         }
         //Mouse above the button
-        else if (y < mPosition.y)
+        else if (y < bBoardPosition.y)
         {
             inside = false;
         }
         //Mouse below the button
-        else if (y > mPosition.y + BUTTON_HEIGHT)
+        else if (y > bBoardPosition.y + BUTTON_HEIGHT)
         {
             inside = false;
         }
@@ -262,7 +262,7 @@ void LButton::handleEvent(SDL_Event* e)
 void LButton::renderTexture()
 {
     //Show current button sprite
-    gButtonSpriteSheetTexture.renderTexture(mPosition.x, mPosition.y, &gSpriteClips[mCurrentSprite]);
+    gButtonSpriteSheetTexture.renderTexture(bBoardPosition.x, bBoardPosition.y, &gSpriteClips[mCurrentSprite]);
 }
 
 LButton gButtons[BUTTON_SPRITE_TOTAL];

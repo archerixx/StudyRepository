@@ -3,36 +3,42 @@
 #include "BBrickType.h"
 #include "BLevel.h"
 
-class BBricks : public BBrickType
+class BBricks : public BBrickType, public BGraphics
 {
-private:
-	//Brick types
-	BBrickType BrickSoftYellow[11];
-	BBrickType BrickMediumBlue[11];
-	BBrickType BrickHardRed[11];
-
-	//Level 1
-	BLevel* Level_1 = new BLevel;
-
-	//Bricks row start positions on Y axis
-	const int BrickSoftYellow_Y_Start = 200;
-	const int BrickMediumBlue_Y_Start = 175;
-	const int BrickHardRed_Y_Start = 150;
-
-	int BrickLifeCounter;
-
 public:
+	//Construcor
+	BBricks();
+	//Destructor
+	~BBricks();
 
 	//GET for Brick elements
 	BBrickType* getSoftYellowBrick(int element);
 	BBrickType* getMediumBlueBrick(int element);
 	BBrickType* getHardRedBrick(int element);
+	//GET current level
+	BLevel* getLevel();
 
 	//SET for Bricks
 	void setYellowBrick();
 	void setBlueBrick();
 	void setRedBrick();
 
-	BLevel* getLevel();
+	//SETs for brick position on Y axis
+	void setBrickSoftYellow_Y_Start(int position_y);
+	void setBrickMediumBlue_Y_Start(int position_y);
+	void setBrickHardRed_Y_Start(int position_y);
+	
+private:
+	//Brick types
+	BBrickType** BrickSoftYellow;
+	BBrickType** BrickMediumBlue;
+	BBrickType** BrickHardRed;
 
+	//Level 1
+	BLevel* Level_1;
+
+	//Bricks row start positions on Y axis
+	int BrickSoftYellow_Y_FromStart;
+	int BrickMediumBlue_Y_FromStart;
+	int BrickHardRed_Y_FromStart;
 };

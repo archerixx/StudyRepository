@@ -24,9 +24,6 @@
     <ClCompile Include="BLevel.cpp">
       <Filter>Source Files\Breakout</Filter>
     </ClCompile>
-    <ClCompile Include="BGame.cpp">
-      <Filter>Source Files\Breakout</Filter>
-    </ClCompile>
     <ClCompile Include="BGraphics.cpp">
       <Filter>Source Files\Breakout</Filter>
     </ClCompile>
@@ -91,9 +88,6 @@
     </ClInclude>
     <ClInclude Include="game-test1.h">
       <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="BGame.h">
-      <Filter>Source Files\Breakout</Filter>
     </ClInclude>
     <ClInclude Include="BTexture.h">
       <Filter>Source Files\Breakout</Filter>

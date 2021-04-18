@@ -2,120 +2,115 @@
 
 BBrickType::BBrickType()
 {
-	this->brickID = 0;
 	this->brickTexturePath = "";
 	this->hitPoints = 0;
-	this->BreakScore = 0;
-	//BrickSoftYellowTextureTest = NULL;
-}
+	this->breakScore = 0;
 
-BBrickType::BBrickType(char bID, const char* bTexture, int bHitPoints)
+	BrickSoftYellowTexture = new BTexture;
+	BrickMediumBlueTexture = new BTexture;
+	BrickHardRedTexture = new BTexture;
+}
+BBrickType::~BBrickType()
 {
-	this->brickID = bID;
-	this->brickTexturePath = bTexture;
-	this->hitPoints = bHitPoints;
-	//hitSound = bHitSound;
-	//breakSound = bBreakSound;
-	//breakScore = bBreakScore;
+	BrickSoftYellowTexture->clearTexture();
+	delete BrickSoftYellowTexture;
+	BrickSoftYellowTexture = NULL;
+	BrickMediumBlueTexture->clearTexture();
+	delete BrickMediumBlueTexture;
+	BrickMediumBlueTexture = NULL;
+	BrickHardRedTexture->clearTexture();
+	delete BrickHardRedTexture;
+	BrickHardRedTexture = NULL;
 }
 
 /*
-BBrickType::~BBrickType()
-{
-	delete BrickSoftYellowTextureTest;
-}
+	SETs
 */
-void BBrickType::setBrickID(char bID)
-{
-	this->brickID = bID;
-}
-
 void BBrickType::setBrickTexturePath(const char* bTexture)
 {
 	this->brickTexturePath = bTexture;
 }
-
 void BBrickType::setHitPoints(int bHitPoints)
 {
 	this->hitPoints = bHitPoints;
 }
-
 void BBrickType::setBreakScore(int bScore)
 {
-	this->BreakScore = bScore;
+	this->breakScore = bScore;
 }
 
-int BBrickType::getBrickID() const
-{
-	return brickID;
-}
-
+/*
+	GETs
+*/
 const char* BBrickType::getBrickTexturePath() const
 {
 	return brickTexturePath;
 }
-
 int BBrickType::getHitPoints() const
 {
 	return hitPoints;
 }
-
-int BBrickType::getBreakScore()
+int BBrickType::getBreakScore() const
 {
-	return BreakScore;
+	return breakScore;
 }
 
+/*
+	SET brick boarder element
+*/
 void BBrickType::setBrickBoarderOn_X_Element(int index, int element)
 {
 	BrickBoarderOn_X[index] = element;
 }
-
 void BBrickType::setBrickBoarderOn_Y_Element(int index, int element)
 {
 	BrickBoarderOn_Y[index] = element;
 }
 
-int BBrickType::getBrickBoarderOn_X_Element(int element)
+/*
+	GET brick boarder element
+*/
+int BBrickType::getBrickBoarderOn_X_Element(int element) const
 {
 	return BrickBoarderOn_X[element];
 }
-
-int BBrickType::getBrickBoarderOn_Y_Element(int element)
+int BBrickType::getBrickBoarderOn_Y_Element(int element) const
 {
 	return BrickBoarderOn_Y[element];
 }
 
-void BBrickType::setYellowBrickTexture(BTexture& texture)
+//Update/moved brick on Y axis
+void BBrickType::updateBrickBoarder_Y_axis(int y)
 {
-	BrickSoftYellowTexture = texture;
+	BrickBoarderOn_Y[0] += y;
+	BrickBoarderOn_Y[1] += y;
 }
 
-BTexture BBrickType::getYellowBrickTexture()
-{
-	return BrickSoftYellowTexture;
-}
-
+/*
+	Render bricks
+*/
 void BBrickType::renderYellowBrick(int x, int y)
 {
-	BrickSoftYellowTexture.renderTexture(x, y);
+	BrickSoftYellowTexture->renderTexture(x, y);
 }
-
 void BBrickType::renderBlueBrick(int x, int y)
 {
-	BrickMediumBlueTexture.renderTexture(x, y);
+	BrickMediumBlueTexture->renderTexture(x, y);
 }
-
 void BBrickType::renderRedBrick(int x, int y)
 {
-	BrickHardRedTexture.renderTexture(x, y);
+	BrickHardRedTexture->renderTexture(x, y);
 }
 
+/*
+	Load brick media
+*/
 bool BBrickType::loadYellowBrickMedia(const char* path)
 {
 	//Loading success flag
 	bool success = true;
 
-	if (!BrickSoftYellowTexture.loadFromFile(path))
+	if (!BrickSoftYellowTexture->loadFromFile(path))
 	{
 		std::cout << "Failed to load Yellow Brick texture!\n";
 		success = false;
@@ -123,13 +118,12 @@ bool BBrickType::loadYellowBrickMedia(const char* path)
 
 	return success;
 }
-
 bool BBrickType::loadBlueBrickMedia(const char* path)
 {
 	//Loading success flag
 	bool success = true;
 
-	if (!BrickMediumBlueTexture.loadFromFile(path))
+	if (!BrickMediumBlueTexture->loadFromFile(path))
 	{
 		std::cout << "Failed to load Blue Brick texture!\n";
 		success = false;
@@ -137,13 +131,12 @@ bool BBrickType::loadBlueBrickMedia(const char* path)
 
 	return success;
 }
-
 bool BBrickType::loadRedBrickMedia(const char* path)
 {
 	//Loading success flag
 	bool success = true;
 
-	if (!BrickHardRedTexture.loadFromFile(path))
+	if (!BrickHardRedTexture->loadFromFile(path))
 	{
 		std::cout << "Failed to load Red Brick texture!\n";
 		success = false;
@@ -151,39 +144,19 @@ bool BBrickType::loadRedBrickMedia(const char* path)
 
 	return success;
 }
+
 /*
-void BBrickType::renderYellowBrickTest(int x, int y)
-{
-	BrickSoftYellowTextureTest->renderTexture(x, y);
-}
-
-bool BBrickType::loadYellowBrickMediaTest()
-{
-	//Loading success flag
-	bool success = true;
-
-	if (!BrickSoftYellowTextureTest->loadFromFile("SDL_Image_Imports/Yellow_Brick.png"))
-	{
-		printf("Failed to load button sprite texture!\n");
-		success = false;
-	}
-
-	return success;
-
-}
+	Clear brick texture
 */
-
 void BBrickType::clearYellowTexture()
 {
-	BrickSoftYellowTexture.clearTexture();
+	BrickSoftYellowTexture->clearTexture();
 }
-
 void BBrickType::clearBlueTexture()
 {
-	BrickMediumBlueTexture.clearTexture();
+	BrickMediumBlueTexture->clearTexture();
 }
-
 void BBrickType::clearRedTexture()
 {
-	BrickHardRedTexture.clearTexture();
+	BrickHardRedTexture->clearTexture();
 }

@@ -169,21 +169,21 @@ public:
 
 private:
     //coordinateds of start position
-    SDL_Point mPosition;
+    SDL_Point bBoardPosition;
 
 };
 
 LMouseMotion::LMouseMotion()
 {
-    mPosition.x = 370;
-    mPosition.y = 570;
+    bBoardPosition.x = 370;
+    bBoardPosition.y = 570;
 
 }
 
 void LMouseMotion::setPosition(int x, int y)
 {
-    mPosition.x = x;
-    mPosition.y = y;
+    bBoardPosition.x = x;
+    bBoardPosition.y = y;
 }
 
 void LMouseMotion::handleEvent(SDL_Event* e)
@@ -199,25 +199,25 @@ void LMouseMotion::handleEvent(SDL_Event* e)
         switch (e->type)
         {
         case SDL_MOUSEMOTION:
-            if (x < mPosition.x)
+            if (x < bBoardPosition.x)
             {
-                mPosition.x= mPosition.x-10;
-                if (mPosition.x == 90)
-                    mPosition.x = mPosition.x+10;
+                bBoardPosition.x= bBoardPosition.x-10;
+                if (bBoardPosition.x == 90)
+                    bBoardPosition.x = bBoardPosition.x+10;
                 inside = false;
             }
-            else if (x > mPosition.x + BOARD_WIDTH)
+            else if (x > bBoardPosition.x + BOARD_WIDTH)
             {
-                mPosition.x= mPosition.x+10;
-                if (mPosition.x == 610)
-                    mPosition.x = mPosition.x - 10;
+                bBoardPosition.x= bBoardPosition.x+10;
+                if (bBoardPosition.x == 610)
+                    bBoardPosition.x = bBoardPosition.x - 10;
                 inside = false;
             }
-            else if (y < mPosition.y)
+            else if (y < bBoardPosition.y)
             {
                 inside = false;
             }
-            else if (y > mPosition.y + BOARD_HEIGHT)
+            else if (y > bBoardPosition.y + BOARD_HEIGHT)
             {
                 inside = false;
             }
@@ -229,7 +229,7 @@ void LMouseMotion::handleEvent(SDL_Event* e)
 
 void LMouseMotion::renderTexture()
 {
-    player_Board.renderTexture(mPosition.x, mPosition.y);
+    player_Board.renderTexture(bBoardPosition.x, bBoardPosition.y);
 }
 
 LMouseMotion gButtons;

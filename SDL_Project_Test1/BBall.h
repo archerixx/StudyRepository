@@ -12,6 +12,8 @@ public:
 	//load bacground media
 	bool loadBackgroundMedia(const char* path);
 	void renderBackground(int x = 0, int y = 0);
+	void renderGameOverBackground(int x = 0, int y = 0);
+	void renderMenu(int x = 210, int y = 0);
 
 	//set ball position
 	void setBallPoint(int x, int y);
@@ -46,9 +48,10 @@ public:
 
 	//get state of lifeLost
 	bool getLifeLostState();
+	BTexture* getLivesTexture();
 
 	//load font media for gameScore
-	bool loadScoreMedia(int gameScore);
+	bool loadScoreAndLivesMedia(int gameScore, int livesLeft);
 	BTexture* getScoreTexture();
 
 	//qualify function name from BGraphics class
@@ -57,6 +60,7 @@ public:
 private:
 	//background texture
 	BTexture* baseBackgroundTexture;
+	BTexture* gameOverBackground;
 
 	//ball size
 	const int BALL_SIZE = 10;
@@ -76,6 +80,10 @@ private:
 	BTexture* scoreTexture;
 	//ball texture
 	BTexture* ballTexture;
+	//lives texture
+	BTexture* livesTexture;
+	//Menu text
+	BTexture* menuText;
 
 	//classess used in this header
 	BBricks* gBrick;

@@ -8,6 +8,8 @@ BBall::BBall()
 
 	//setup base background
 	baseBackgroundTexture = new BTexture;
+	gameOverBackground = new BTexture;
+	menuText = new BTexture;
 	if (!loadBackgroundMedia(gBrick->getLevel()->getBackGroundTexture()))
 	{
 		std::cout << "Failed to load base background media!";
@@ -22,7 +24,8 @@ BBall::BBall()
 	lifeLost = false;
 
 	scoreTexture = new BTexture;
-	if (!loadScoreMedia(gameScore))
+	livesTexture = new BTexture;
+	if (!loadScoreAndLivesMedia(gameScore, getBrick()->getLevel()->getBallLifes()))
 	{
 		std::cout << "Failed to load font for score media!\n";
 	}
@@ -31,7 +34,7 @@ BBall::BBall()
 	{
 		std::cout << "Failed to load Ball media!\n";
 	}
-
+	
 	//setup bricks
 	gBrick->setYellowBrick();
 	gBrick->setBlueBrick();
@@ -47,9 +50,18 @@ BBall::~BBall()
 	baseBackgroundTexture->clearTexture();
 	delete baseBackgroundTexture;
 	baseBackgroundTexture = NULL;
+	gameOverBackground->clearTexture();
+	delete gameOverBackground;
+	gameOverBackground = NULL;
+	menuText->clearTexture();
+	delete menuText;
+	menuText = NULL;
 	scoreTexture->clearTexture();
 	delete scoreTexture;
 	scoreTexture = NULL;
+	livesTexture->clearTexture();
+	delete livesTexture;
+	livesTexture = NULL;
 	ballTexture->clearTexture();
 	delete ballTexture;
 	ballTexture = NULL;
@@ -71,12 +83,32 @@ bool BBall::loadBackgroundMedia(const char* path)
 		std::cout << "\nFailed to load background texture image!\n";
 		success = false;
 	}
+	//Load game over texture
+	if (!gameOverBackground->loadFromFile("SDL_Image_Imports/gameover_background.png"))
+	{
+		std::cout << "\nFailed to load game over texture image!\n";
+		success = false;
+	}
+	//Load menu text
+	if (!menuText->loadFromFile("SDL_Image_Imports/menu_text.png"))
+	{
+		std::cout << "\nFailed to load game over texture image!\n";
+		success = false;
+	}
 
 	return success;
 }
 void BBall::renderBackground(int x,int y)
 {
 	baseBackgroundTexture->renderTexture(x, y);
+}
+void BBall::renderGameOverBackground(int x, int y)
+{
+	gameOverBackground->renderTexture(x, y);
+}
+void BBall::renderMenu(int x, int y)
+{
+	menuText->renderTexture(x, y);
 }
 
 BSound* BBall::getSound()
@@ -672,13 +704,17 @@ BTexture* BBall::getScoreTexture()
 {
 	return scoreTexture;
 }
-bool BBall::loadScoreMedia(int gameScore)
+BTexture* BBall::getLivesTexture()
+{
+	return livesTexture;
+}
+bool BBall::loadScoreAndLivesMedia(int gameScore, int livesLeft)
 {
 	//Loading success flag
 	bool success = true;
 
 	//Open the font
-	baseFont = TTF_OpenFont("SDL_Image_Imports/BOD_PSTC.ttf", 26);
+	baseFont = TTF_OpenFont("SDL_Image_Imports/MAGNETOB.ttf", 26);
 	if (baseFont == NULL)
 	{
 		std::cout << "Failed to load font! SDL_ttf Error: %s\n" << TTF_GetError();
@@ -687,8 +723,13 @@ bool BBall::loadScoreMedia(int gameScore)
 	else
 	{
 		//Render text
-		SDL_Color textColor = { 255, 111, 111 };
+		SDL_Color textColor = { 255, 188, 255 };
 		if (!scoreTexture->loadFromRenderedText(std::to_string(gameScore).c_str(), textColor))
+		{
+			std::cout << "Failed to render text texture!\n";
+			success = false;
+		}
+		if (!livesTexture->loadFromRenderedText(std::to_string(livesLeft).c_str(), textColor))
 		{
 			std::cout << "Failed to render text texture!\n";
 			success = false;
@@ -697,5 +738,3 @@ bool BBall::loadScoreMedia(int gameScore)
 
 	return success;
 }
-
-

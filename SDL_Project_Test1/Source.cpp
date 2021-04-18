@@ -105,9 +105,12 @@ void startGame()
 
         //Start game flag
         bool start = false;
+        //Gameover flag
+        bool gameOver = false;
 
-        //bool updateBrick = true;
+        //temp values for score and lives
         int tempScore = 0;
+        int tempLives = 0;
 
         //While application is running
         while (!quit)
@@ -138,7 +141,7 @@ void startGame()
             if (start)
             {
                 //Clear screen
-                SDL_SetRenderDrawColor(baseRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
                 SDL_RenderClear(baseRenderer);
 
                 //Render background texture to screen
@@ -154,6 +157,7 @@ void startGame()
 
                 //keep previous score
                 tempScore = gBall.getScore();
+                tempLives = gBall.getBrick()->getLevel()->getBallLifes();
 
                 //ball movement/collision
                 gBall.ballMovementAndCollision(gPlayer.getBoardPosition().x, gPlayer.getBoardPosition().y);
@@ -161,6 +165,7 @@ void startGame()
                 //checks if it is game over
                 if (gBall.getBrick()->getLevel()->getBallLifes() == 0)
                 {
+                    gameOver = true;
                     break;
                 }
                 //if game is not lost, reset ball on board and wait for mouse click
@@ -170,11 +175,13 @@ void startGame()
                 }
 
                 //if score is changed, load and render it on screen
-                if (gBall.getScore() > tempScore)
+                if (gBall.getScore() > tempScore || gBall.getBrick()->getLevel()->getBallLifes() < tempLives)
                 {
-                    gBall.loadScoreMedia(gBall.getScore());
+                    gBall.loadScoreAndLivesMedia(gBall.getScore(), gBall.getBrick()->getLevel()->getBallLifes());
                 }
-                gBall.getScoreTexture()->renderTexture(700, 600);
+                gBall.getScoreTexture()->renderTexture(730, 530);
+                gBall.getLivesTexture()->renderTexture(50, 530);
+
 
                 //game delay, speed
                 SDL_Delay(2);
@@ -189,11 +196,12 @@ void startGame()
             else
             {
                 //Clear screen
-                SDL_SetRenderDrawColor(baseRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
                 SDL_RenderClear(baseRenderer);
 
                 //Render background texture to screen
                 gBall.renderBackground();
+                gBall.renderMenu();
 
                 //render bricks from level
                 for (int i = 0; i < gBall.getBrick()->getLevel()->getColumnCount(); i++)
@@ -211,8 +219,40 @@ void startGame()
                 gPlayer.renderPlayerBoard();
 
                 //Render current frame
-                gBall.getScoreTexture()->renderTexture(700, 600);
-                //gTextTexture.renderTexture(700, 600);
+                gBall.getScoreTexture()->renderTexture(730, 530);
+                gBall.getLivesTexture()->renderTexture(50, 530);
+
+                //Update screen
+                SDL_RenderPresent(baseRenderer);
+            }
+        }
+
+        if(gameOver == true)
+        {
+            if (gBall.getScore() > tempScore || gBall.getBrick()->getLevel()->getBallLifes() < tempLives)
+            {
+                gBall.loadScoreAndLivesMedia(gBall.getScore(), gBall.getBrick()->getLevel()->getBallLifes());
+            }
+            while (!quit)
+            { 
+                //Handle events on queue
+                while (SDL_PollEvent(&e))
+                {
+                    //User requests quit
+                    if (e.type == SDL_QUIT)
+                    {
+                        quit = true;
+                        break;
+                    }
+                }
+                //Clear screen
+                SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
+                SDL_RenderClear(baseRenderer);
+
+                //Render background texture to screen
+                gBall.renderGameOverBackground();
+                gBall.getScoreTexture()->renderTexture(730, 530);
+                gBall.getLivesTexture()->renderTexture(50, 530);
 
                 //Update screen
                 SDL_RenderPresent(baseRenderer);

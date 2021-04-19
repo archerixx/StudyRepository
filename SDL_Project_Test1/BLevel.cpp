@@ -43,7 +43,7 @@ const char* BLevel::getBackGroundTexture() const
 {
 	return backgroundTexture;
 }
-int BLevel::getBallLifes() const
+int BLevel::getBallLives() const
 {
 	return ballLives;
 }
@@ -71,7 +71,7 @@ void BLevel::setBackgroundTexture(const char* backgroundTexture)
 {
 	this->backgroundTexture = backgroundTexture;
 }
-void BLevel::setBallLifes(int lifesLeft)
+void BLevel::setBallLives(int lifesLeft)
 {
 	this->ballLives = lifesLeft;
 }

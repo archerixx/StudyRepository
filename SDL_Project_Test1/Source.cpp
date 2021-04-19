@@ -1,5 +1,7 @@
 #include "BPlayerControl.h"
 #include "BBall.h"
+#include "BGame_Level_1_2.h"
+#include "BGame_Level_2.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 800;
@@ -20,6 +22,7 @@ void closeWindow();
 
 int main(int argc, char* args[])
 {
+
 	startGame();
 	return 0;
 }
@@ -95,26 +98,24 @@ void startGame()
     }
     else
     {
-        BBall gBall;
-        BPlayerControl gPlayer;
+        //level states
+        bool lvl_1_state = true;
+        bool lvl_2_state = false;
+        bool lvl_3_state = false;
+        //score passed between levels
+        int passTheScore = 0;
+        //lives passed between levels
+        int passLives = 0;
 
         //Main loop flag
         bool quit = false;
         //Event handler
         SDL_Event e;
-
-        //Start game flag
-        bool start = false;
-        //Gameover flag
-        bool gameOver = false;
-
-        //temp values for score and lives
-        int tempScore = 0;
-        int tempLives = 0;
-
-        //While application is running
+        
+        //Create Level 1
+        BGame_Level_1_2* Lvl1 = new BGame_Level_1_2;
         while (!quit)
-        {
+        { 
             //Handle events on queue
             while (SDL_PollEvent(&e))
             {
@@ -124,117 +125,73 @@ void startGame()
                     quit = true;
                     break;
                 }
-                    
+
                 //Handle mouse motion events
-                gPlayer.handleEvent(&e);
+                Lvl1->getPlayer()->handleEvent(&e);
 
                 //Enable music with key 9 (to play/pause) and 0 (to stop)
-                gBall.getSound()->handleMusicEvent(&e);
+                Lvl1->getBall()->getSound()->handleMusicEvent(&e);
 
                 //start game with mouse click
                 if (e.type == SDL_MOUSEBUTTONUP)
                 {
-                    start = true;
+                    Lvl1->setGameStart(true);
                 }
             }
-            //if mouse button is clicked, start game
-            if (start)
+
+            //lvl1
+            if (Lvl1->getGameStart())
             {
-                //Clear screen
-                SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
-                SDL_RenderClear(baseRenderer);
-
-                //Render background texture to screen
-                gBall.renderBackground();
-
-                //render bricks from level
-                for (int i = 0; i < gBall.getBrick()->getLevel()->getColumnCount(); i++)
-                {
-                    gBall.getBrick()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
-                    gBall.getBrick()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
-                    gBall.getBrick()->getHardRedBrick(i)->renderRedBrick(gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
-                }
-
-                //keep previous score
-                tempScore = gBall.getScore();
-                tempLives = gBall.getBrick()->getLevel()->getBallLifes();
-
-                //ball movement/collision
-                gBall.ballMovementAndCollision(gPlayer.getBoardPosition().x, gPlayer.getBoardPosition().y);
-
-                //checks if it is game over
-                if (gBall.getBrick()->getLevel()->getBallLifes() == 0)
-                {
-                    gameOver = true;
-                    break;
-                }
-                //if game is not lost, reset ball on board and wait for mouse click
-                else if (gBall.getLifeLostState() == true)
-                {
-                    start = false;
-                }
-
-                //if score is changed, load and render it on screen
-                if (gBall.getScore() > tempScore || gBall.getBrick()->getLevel()->getBallLifes() < tempLives)
-                {
-                    gBall.loadScoreAndLivesMedia(gBall.getScore(), gBall.getBrick()->getLevel()->getBallLifes());
-                }
-                gBall.getScoreTexture()->renderTexture(730, 530);
-                gBall.getLivesTexture()->renderTexture(50, 530);
-
-
-                //game delay, speed
-                SDL_Delay(2);
-
-                //Render player board
-                gPlayer.renderPlayerBoard();
-
-                //Update screen
-                SDL_RenderPresent(baseRenderer);                   
+                Lvl1->mainGameLoop();
             }
-            //show starting textures, wait for mouse click
             else
             {
-                //Clear screen
-                SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
-                SDL_RenderClear(baseRenderer);
+                Lvl1->standByLoop();
+            }
 
-                //Render background texture to screen
-                gBall.renderBackground();
-                gBall.renderMenu();
+            //Level finished
+            if (Lvl1->getBall()->getScore() >= 20) //980
+            {
+                //lvl_1_state = false;
+                lvl_2_state = true;
+                passTheScore = Lvl1->getBall()->getScore();
+                passLives = Lvl1->getBall()->getBrick()->getLevel_1()->getBallLives();
+                break;
+            }
 
-                //render bricks from level
-                for (int i = 0; i < gBall.getBrick()->getLevel()->getColumnCount(); i++)
+            //if no more lifes, game over
+            if (Lvl1->getGameOver())
+            {
+                while (!quit)
                 {
-                    gBall.getBrick()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
-                    gBall.getBrick()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
-                    gBall.getBrick()->getHardRedBrick(i)->renderRedBrick(gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
+                    //Handle events on queue
+                    while (SDL_PollEvent(&e))
+                    {
+                        //User requests quit
+                        if (e.type == SDL_QUIT)
+                        {
+                            quit = true;
+                            break;
+                        }
+                    }
+                    Lvl1->gameOverLoop();
                 }
-
-                //render ball on board
-                gBall.setBallPoint(gPlayer.getBoardPosition().x + gBall.getBoardWidth() / 2, gPlayer.getBoardPosition().y - gBall.getBallSize());
-                gBall.renderBall(gPlayer.getBoardPosition().x + gBall.getBoardWidth() / 2, gPlayer.getBoardPosition().y - gBall.getBallSize());
-
-                //Render player board
-                gPlayer.renderPlayerBoard();
-
-                //Render current frame
-                gBall.getScoreTexture()->renderTexture(730, 530);
-                gBall.getLivesTexture()->renderTexture(50, 530);
-
-                //Update screen
-                SDL_RenderPresent(baseRenderer);
             }
         }
+        //delete level 1
+        delete Lvl1;
 
-        if(gameOver == true)
-        {
-            if (gBall.getScore() > tempScore || gBall.getBrick()->getLevel()->getBallLifes() < tempLives)
-            {
-                gBall.loadScoreAndLivesMedia(gBall.getScore(), gBall.getBrick()->getLevel()->getBallLifes());
-            }
+        //create Level 2 
+        BGame_Level_2* Lvl2 = new BGame_Level_2;
+        Lvl2->getBall()->setScore(passTheScore);
+        Lvl2->getBall()->getBrick()->getLevel_1()->setBallLives(passLives);
+        Lvl2->getBall()->loadScoreAndLivesMedia(Lvl2->getBall()->getScore(), Lvl2->getBall()->getBrick()->getLevel_1()->getBallLives());
+        bool updateLevel_2 = false;
+        //Lvl2->updateLevel();
+        if (lvl_2_state)
+        { 
             while (!quit)
-            { 
+            {
                 //Handle events on queue
                 while (SDL_PollEvent(&e))
                 {
@@ -244,20 +201,111 @@ void startGame()
                         quit = true;
                         break;
                     }
+
+                    //Handle mouse motion events
+                    Lvl2->getPlayer()->handleEvent(&e);
+
+                    //Enable music with key 9 (to play/pause) and 0 (to stop)
+                    Lvl2->getBall()->getSound()->handleMusicEvent(&e);
+
+                    //start game with mouse click
+                    if (e.type == SDL_MOUSEBUTTONUP)
+                    {
+                        Lvl2->setGameStart(true);
+                    }
                 }
-                //Clear screen
-                SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
-                SDL_RenderClear(baseRenderer);
 
-                //Render background texture to screen
-                gBall.renderGameOverBackground();
-                gBall.getScoreTexture()->renderTexture(730, 530);
-                gBall.getLivesTexture()->renderTexture(50, 530);
+                //lvl2
+                if (Lvl2->getGameStart())
+                {
+                    Lvl2->mainGameLoop();
+                }
+                else
+                {
+                    Lvl2->standByLoop();
+                }
 
-                //Update screen
-                SDL_RenderPresent(baseRenderer);
+                //Update level
+                if (Lvl2->getBall()->getHitCounter() == 5)
+                {
+                    updateLevel_2 = true;
+                    Lvl2->getBall()->updateHitCounter();
+                }
+
+                if (updateLevel_2)
+                {
+                    Lvl2->updateLevel();
+                    updateLevel_2 = false;
+                }
+
+                //Level finished
+                if (Lvl2->getBall()->getScore() >= 990) //1980
+                {
+                    //lvl_2_state = false;
+                    lvl_3_state = true;
+                    passTheScore = Lvl2->getBall()->getScore();
+                    passLives = Lvl2->getBall()->getBrick()->getLevel_1()->getBallLives();
+                    break;
+                }
+
+                //if no more lifes, game over
+                if (Lvl2->getGameOver())
+                {
+                    while (!quit)
+                    {
+                        //Handle events on queue
+                        while (SDL_PollEvent(&e))
+                        {
+                            //User requests quit
+                            if (e.type == SDL_QUIT)
+                            {
+                                quit = true;
+                                break;
+                            }
+                        }
+                        Lvl2->gameOverLoop();
+                    }
+                }
             }
         }
+        //delete level 2
+        delete Lvl2;
+        /*
+        //Create level 3
+        BGame_Level_2* Lvl3 = new BGame_Level_2;
+        Lvl3->getBall()->setScore(passTheScore);
+        Lvl3->getBall()->getBrick()->getLevel_1()->setBallLives(passLives);
+        Lvl3->getBall()->loadScoreAndLivesMedia(Lvl3->getBall()->getScore(), Lvl3->getBall()->getBrick()->getLevel_1()->getBallLives());
+        if (lvl_3_state)
+        {
+            while (!quit)
+            {
+                //Handle events on queue
+                while (SDL_PollEvent(&e))
+                {
+                    //User requests quit
+                    if (e.type == SDL_QUIT)
+                    {
+                        quit = true;
+                        break;
+                    }
+
+                    //Handle mouse motion events
+                    Lvl3->getPlayer()->handleEvent(&e);
+
+                    //Enable music with key 9 (to play/pause) and 0 (to stop)
+                    Lvl3->getBall()->getSound()->handleMusicEvent(&e);
+
+                    //start game with mouse click
+                    if (e.type == SDL_MOUSEBUTTONUP)
+                    {
+                        Lvl3->setGameStart(true);
+                    }
+                }
+
+            }
+        }
+        */
     }
 
     //Free resources and close SDL
@@ -273,7 +321,6 @@ void closeWindow()
     SDL_DestroyWindow(baseWindow);
     baseRenderer = NULL;
     baseWindow = NULL;
-
     //Free global font
     TTF_CloseFont(baseFont);
     baseFont = NULL;
@@ -284,32 +331,3 @@ void closeWindow()
     IMG_Quit();
     SDL_Quit();
 }
-
-//idea for next level
-                /*
-                if (gBall.getHitCounter() == 2 && updateBrick == true)
-                {
-                    for (int i = 0; i < 11; i++)
-                    {
-                        gBall.getBrick()->getSoftYellowBrick(i)->updateBrickBoarder_Y_axis(20);
-                        gBall.getBrick()->getMediumBlueBrick(i)->updateBrickBoarder_Y_axis(20);
-                        gBall.getBrick()->getHardRedBrick(i)->updateBrickBoarder_Y_axis(20);
-                    }
-                    updateBrick = false;
-                }
-                else if (gBall.getHitCounter() ==5)
-                {
-                    updateBrick = true;
-                }
-                else if (gBall.getHitCounter() == 7 && updateBrick == true)
-                {
-                    for (int i = 0; i < 11; i++)
-                    {
-                        gBall.getBrick()->getSoftYellowBrick(i)->updateBrickBoarder_Y_axis(20);
-                        gBall.getBrick()->getMediumBlueBrick(i)->updateBrickBoarder_Y_axis(20);
-                        gBall.getBrick()->getHardRedBrick(i)->updateBrickBoarder_Y_axis(20);
-                    }
-
-                    updateBrick = false;
-                }
-                */

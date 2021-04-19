@@ -36,11 +36,13 @@ public:
 	void renderYellowBrick(int x, int y);
 	void renderBlueBrick(int x, int y);
 	void renderRedBrick(int x, int y);
+	void renderPurpleBrick(int x, int y);
 
 	//load media for bricks
 	bool loadYellowBrickMedia(const char* path);
 	bool loadBlueBrickMedia(const char* path);
 	bool loadRedBrickMedia(const char* path);
+	bool loadPurpleBrickMedia(const char* path);
 
 	//clear brick texture media
 	void clearYellowTexture();
@@ -63,5 +65,6 @@ private:
 	BTexture* BrickSoftYellowTexture;
 	BTexture* BrickMediumBlueTexture;
 	BTexture* BrickHardRedTexture;
+	BTexture* BrickImpenetrablePurpleTexture;
 };
 

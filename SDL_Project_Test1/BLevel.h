@@ -13,14 +13,14 @@ public:
 	int getRowSpacing() const;
 	int getColumtSpacing() const;
 	const char* getBackGroundTexture() const;
-	int getBallLifes() const;
+	int getBallLives() const;
 
 	void setBrickRowCount(int rowCount);
 	void setBrickColumnCount(int columnCount);
 	void setBrickRowSpacing(int rowSpacing);
 	void setbrickColumnSpacing(int columnSpacing);
 	void setBackgroundTexture(const char* backgroundTexture);
-	void setBallLifes(int lifesLeft);
+	void setBallLives(int lifesLeft);
 
 private:
 	int brickRowCount;

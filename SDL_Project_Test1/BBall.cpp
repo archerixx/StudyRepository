@@ -10,7 +10,7 @@ BBall::BBall()
 	baseBackgroundTexture = new BTexture;
 	gameOverBackground = new BTexture;
 	menuText = new BTexture;
-	if (!loadBackgroundMedia(gBrick->getLevel()->getBackGroundTexture()))
+	if (!loadBackgroundMedia(gBrick->getLevel_1()->getBackGroundTexture()))
 	{
 		std::cout << "Failed to load base background media!";
 	}
@@ -25,7 +25,7 @@ BBall::BBall()
 
 	scoreTexture = new BTexture;
 	livesTexture = new BTexture;
-	if (!loadScoreAndLivesMedia(gameScore, getBrick()->getLevel()->getBallLifes()))
+	if (!loadScoreAndLivesMedia(gameScore, getBrick()->getLevel_1()->getBallLives()))
 	{
 		std::cout << "Failed to load font for score media!\n";
 	}
@@ -172,6 +172,7 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)
 		//check if ball is on left side of board
 		if ((bBallPosition.x+BALL_SIZE) > board_x && bBallPosition.x <= (board_x + (getBoardWidth() / 2)))
 		{
+			brickHitCounter++;
 			stateReset();
 			Mix_PlayChannel(-1, gSound->gMedium, 0);
 			onLeftBoardSide = true;
@@ -179,6 +180,7 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)
 		//check if ball is on right side of board
 		else if (bBallPosition.x > (board_x + (getBoardWidth() / 2)) && bBallPosition.x <= board_x + getBoardWidth())
 		{
+			brickHitCounter++;
 			Mix_PlayChannel(-1, gSound->gMedium, 0);
 			stateReset();
 			onRightBoardSide = true;
@@ -300,7 +302,7 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)
 	/*
 		Check if ball hit bricks and removes it
 	*/
-	for (int i = 0; i < getBrick()->getLevel()->getColumnCount(); i++)
+	for (int i = 0; i < getBrick()->getLevel_1()->getColumnCount(); i++)
 	{
 		//checks if ball hits yellow bricks on Y-axis
 		if (bBallPosition.y < getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) && 
@@ -616,7 +618,7 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)
 	//if ball misses board and falls below
 	if (bBallPosition.y > 600)
 	{
-		getBrick()->getLevel()->setBallLifes(getBrick()->getLevel()->getBallLifes() - 1);
+		getBrick()->getLevel_1()->setBallLives(getBrick()->getLevel_1()->getBallLives() - 1);
 		lifeLost = true;
 	}
 
@@ -643,7 +645,7 @@ void BBall::removeYellowBricks(int index)
 	getBrick()->getSoftYellowBrick(index)->setHitPoints(getBrick()->getSoftYellowBrick(index)->getHitPoints() - 1);
 	if (getBrick()->getSoftYellowBrick(index)->getHitPoints() == 0)
 	{ 
-		brickHitCounter++;
+		//brickHitCounter++;
 		setScore(getBrick()->getSoftYellowBrick(index)->getBreakScore());
 		getBrick()->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
 		getBrick()->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
@@ -656,7 +658,7 @@ void BBall::removeBlueBricks(int index)
 	getBrick()->getMediumBlueBrick(index)->setHitPoints(getBrick()->getMediumBlueBrick(index)->getHitPoints() - 1);
 	if (getBrick()->getMediumBlueBrick(index)->getHitPoints() == 0)
 	{ 
-		brickHitCounter++;
+		//brickHitCounter++;
 		setScore(getBrick()->getMediumBlueBrick(index)->getBreakScore());
 		getBrick()->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
 		getBrick()->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
@@ -669,7 +671,7 @@ void BBall::removeRedBricks(int index)
 	getBrick()->getHardRedBrick(index)->setHitPoints(getBrick()->getHardRedBrick(index)->getHitPoints() - 1);
 	if (getBrick()->getHardRedBrick(index)->getHitPoints() == 0)
 	{ 
-		brickHitCounter++;
+		//brickHitCounter++;
 		setScore(getBrick()->getHardRedBrick(index)->getBreakScore());
 		getBrick()->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
 		getBrick()->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
@@ -691,6 +693,10 @@ int BBall::getScore()
 int BBall::getHitCounter()
 {
 	return this->brickHitCounter;
+}
+void BBall::updateHitCounter()
+{
+	this->brickHitCounter = 0;
 }
 bool BBall::getLifeLostState()
 {

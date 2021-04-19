@@ -48,6 +48,12 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BGame_Level_1_2.cpp">
+      <Filter>Source Files\Breakout</Filter>
+    </ClCompile>
+    <ClCompile Include="BGame_Level_2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TextureRendering.h">
@@ -109,6 +115,15 @@
     </ClInclude>
     <ClInclude Include="BSound.h">
       <Filter>Source Files\Breakout</Filter>
+    </ClInclude>
+    <ClInclude Include="BGame_Level_1_2.h">
+      <Filter>Source Files\Breakout</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Source Files\SDL_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="BGame_Level_2.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ BBrickType::BBrickType()
 	BrickSoftYellowTexture = new BTexture;
 	BrickMediumBlueTexture = new BTexture;
 	BrickHardRedTexture = new BTexture;
+	BrickImpenetrablePurpleTexture = new BTexture;
 }
 BBrickType::~BBrickType()
 {
@@ -102,6 +103,11 @@ void BBrickType::renderRedBrick(int x, int y)
 	BrickHardRedTexture->renderTexture(x, y);
 }
 
+void BBrickType::renderPurpleBrick(int x, int y)
+{
+	BrickImpenetrablePurpleTexture->renderTexture(x, y);
+}
+
 /*
 	Load brick media
 */
@@ -139,6 +145,20 @@ bool BBrickType::loadRedBrickMedia(const char* path)
 	if (!BrickHardRedTexture->loadFromFile(path))
 	{
 		std::cout << "Failed to load Red Brick texture!\n";
+		success = false;
+	}
+
+	return success;
+}
+
+bool BBrickType::loadPurpleBrickMedia(const char* path)
+{
+	//Loading success flag
+	bool success = true;
+
+	if (!BrickImpenetrablePurpleTexture->loadFromFile(path))
+	{
+		std::cout << "Failed to load Purple Brick texture!\n";
 		success = false;
 	}
 

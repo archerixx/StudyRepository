@@ -45,6 +45,7 @@ public:
 
 	//get hit counter
 	int getHitCounter();
+	void updateHitCounter();
 
 	//get state of lifeLost
 	bool getLifeLostState();

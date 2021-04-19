@@ -151,6 +151,8 @@
     <ClCompile Include="BBall.cpp" />
     <ClCompile Include="BBricks.cpp" />
     <ClCompile Include="BSound.cpp" />
+    <ClCompile Include="BGame_Level_1_2.cpp" />
+    <ClCompile Include="BGame_Level_2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeometricRender.h" />
@@ -165,6 +167,9 @@
     <ClInclude Include="BBall.h" />
     <ClInclude Include="BBricks.h" />
     <ClInclude Include="BSound.h" />
+    <ClInclude Include="BGame_Level_1_2.h" />
+    <ClInclude Include="Header.h" />
+    <ClInclude Include="BGame_Level_2.h" />
     <ClInclude Include="MouseMotion.h" />
     <ClInclude Include="RotationTexture.h" />
     <ClInclude Include="BLevel.h" />

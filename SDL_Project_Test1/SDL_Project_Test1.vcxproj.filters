@@ -36,7 +36,7 @@
     <ClCompile Include="BBrickType.cpp">
       <Filter>Source Files\Breakout</Filter>
     </ClCompile>
-    <ClCompile Include="BBall.cpp">
+    <ClCompile Include="BGame.cpp">
       <Filter>Source Files\Breakout</Filter>
     </ClCompile>
     <ClCompile Include="BBricks.cpp">
@@ -104,7 +104,7 @@
     <ClInclude Include="BPlayerControl.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
-    <ClInclude Include="BBall.h">
+    <ClInclude Include="BGame.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
     <ClInclude Include="BBricks.h">

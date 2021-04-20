@@ -1,6 +1,6 @@
  else
     {
-    BBall gBall;
+    BGame gBall;
     BPlayerControl gPlayer;
 
     //Main loop flag
@@ -53,22 +53,22 @@
             gBall.renderBackground();
 
             //render bricks from level
-            for (int i = 0; i < gBall.getBrick()->getLevel_1()->getColumnCount(); i++)
+            for (int i = 0; i < gBall.getBrickLevel_1()->getLevel_1()->getColumnCount(); i++)
             {
-                gBall.getBrick()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
-                gBall.getBrick()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
-                gBall.getBrick()->getHardRedBrick(i)->renderRedBrick(gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
+                gBall.getBrickLevel_1()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrickLevel_1()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrickLevel_1()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
+                gBall.getBrickLevel_1()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrickLevel_1()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrickLevel_1()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
+                gBall.getBrickLevel_1()->getHardRedBrick(i)->renderRedBrick(gBall.getBrickLevel_1()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrickLevel_1()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
             }
 
             //keep previous score
             tempScore = gBall.getScore();
-            tempLives = gBall.getBrick()->getLevel_1()->getBallLives();
+            tempLives = gBall.getBrickLevel_1()->getLevel_1()->getBallLives();
 
             //ball movement/collision
             gBall.ballMovementAndCollision(gPlayer.getBoardPosition().x, gPlayer.getBoardPosition().y);
 
             //checks if it is game over
-            if (gBall.getBrick()->getLevel_1()->getBallLives() == 0)
+            if (gBall.getBrickLevel_1()->getLevel_1()->getBallLives() == 0)
             {
                 gameOver = true;
                 break;
@@ -80,9 +80,9 @@
             }
 
             //if score is changed, load and render it on screen
-            if (gBall.getScore() > tempScore || gBall.getBrick()->getLevel_1()->getBallLives() < tempLives)
+            if (gBall.getScore() > tempScore || gBall.getBrickLevel_1()->getLevel_1()->getBallLives() < tempLives)
             {
-                gBall.loadScoreAndLivesMedia(gBall.getScore(), gBall.getBrick()->getLevel_1()->getBallLives());
+                gBall.loadScoreAndLivesMedia(gBall.getScore(), gBall.getBrickLevel_1()->getLevel_1()->getBallLives());
             }
             gBall.getScoreTexture()->renderTexture(730, 530);
             gBall.getLivesTexture()->renderTexture(50, 530);
@@ -109,11 +109,11 @@
             gBall.renderMenu();
 
             //render bricks from level
-            for (int i = 0; i < gBall.getBrick()->getLevel_1()->getColumnCount(); i++)
+            for (int i = 0; i < gBall.getBrickLevel_1()->getLevel_1()->getColumnCount(); i++)
             {
-                gBall.getBrick()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
-                gBall.getBrick()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
-                gBall.getBrick()->getHardRedBrick(i)->renderRedBrick(gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
+                gBall.getBrickLevel_1()->getSoftYellowBrick(i)->renderYellowBrick(gBall.getBrickLevel_1()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrickLevel_1()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0));
+                gBall.getBrickLevel_1()->getMediumBlueBrick(i)->renderBlueBrick(gBall.getBrickLevel_1()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrickLevel_1()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
+                gBall.getBrickLevel_1()->getHardRedBrick(i)->renderRedBrick(gBall.getBrickLevel_1()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gBall.getBrickLevel_1()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
             }
 
             //render ball on board
@@ -134,9 +134,9 @@
 
     if (gameOver == true)
     {
-        if (gBall.getScore() > tempScore || gBall.getBrick()->getLevel_1()->getBallLives() < tempLives)
+        if (gBall.getScore() > tempScore || gBall.getBrickLevel_1()->getLevel_1()->getBallLives() < tempLives)
         {
-            gBall.loadScoreAndLivesMedia(gBall.getScore(), gBall.getBrick()->getLevel_1()->getBallLives());
+            gBall.loadScoreAndLivesMedia(gBall.getScore(), gBall.getBrickLevel_1()->getLevel_1()->getBallLives());
         }
         while (!quit)
         {

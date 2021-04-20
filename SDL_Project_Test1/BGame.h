@@ -3,11 +3,12 @@
 #include "BBricks.h"
 #include "BSound.h"
 
-class BBall : public BBricks
+class BGame : public BBricks
 {
 public:
-	BBall();
-	~BBall();
+	BGame();
+	BGame(bool thirdLevel);
+	~BGame();
 
 	//load bacground media
 	bool loadBackgroundMedia(const char* path);
@@ -26,18 +27,20 @@ public:
 	void renderBall(int x, int y);
 
 	//get BBrick object
-	BBricks* getBrick();
+	BBricks* getBrickLevel_1();
+	BBricks* getBrickLevel_2();
 	//get BSound object
 	BSound* getSound();
 
 	//responsible for ball movement, collision, brick destruction, gameScore and lives
-	void ballMovementAndCollision(int board_x, int board_y);
+	void ballMovementAndCollision(int board_x, int board_y, bool levelState);
+	void brickCollision(int size, BBricks* getBrickLevel);
 	void stateReset();
 
 	//removes brick from gametable
-	void removeYellowBricks(int index);
-	void removeBlueBricks(int index);
-	void removeRedBricks(int index);
+	void removeYellowBricks(int index, BBricks* getBrickLevel);
+	void removeBlueBricks(int index, BBricks* getBrickLevel);
+	void removeRedBricks(int index, BBricks* getBrickLevel);
 
 	// SET/GET gameScore
 	void setScore(int addScore);
@@ -86,10 +89,18 @@ private:
 	//Menu text
 	BTexture* menuText;
 
+	
 	//classess used in this header
-	BBricks* gBrick;
+	BBricks* gBrick_Level_1;
 	BSound* gSound;
 	
+	//object for level 3
+	bool levelState_3 = false;
+	BBricks* gBrick_Level_2;
+
+	//flag for destructor
+	bool callDestructor = false;
+
 	//ball states
 	bool onLeftBoardSide = false;
 	bool onRightBoardSide = false;

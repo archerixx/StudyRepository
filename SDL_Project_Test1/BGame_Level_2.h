@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BPlayerControl.h"
-#include "BBall.h"
+#include "BGame.h"
 
 class BGame_Level_2
 {
@@ -9,12 +9,12 @@ public:
     BGame_Level_2();
     ~BGame_Level_2();
 
-    BBall* getBall();
+    BGame* getBall();
     BPlayerControl* getPlayer();
 
     void updateLevel();
-    void mainGameLoop();
-    void standByLoop();
+    void mainGameLoop(bool levelState);
+    void standByLoop(bool levelState);
     void gameOverLoop();
 
     void setGameStart(bool state);
@@ -22,7 +22,7 @@ public:
 
     bool getGameOver();
 private:
-    BBall* gBall;
+    BGame* gGame_Level_3;
     BPlayerControl* gPlayer;
 
     //Start game flag

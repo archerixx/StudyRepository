@@ -1,16 +1,16 @@
-#include "BBall.h"
+#include "BGame.h"
 #include <string>
 
-BBall::BBall()
+BGame::BGame()
 {
-	gBrick = new BBricks;
+	gBrick_Level_1 = new BBricks;
 	gSound = new BSound;
 
 	//setup base background
 	baseBackgroundTexture = new BTexture;
 	gameOverBackground = new BTexture;
 	menuText = new BTexture;
-	if (!loadBackgroundMedia(gBrick->getLevel_1()->getBackGroundTexture()))
+	if (!loadBackgroundMedia(gBrick_Level_1->getLevel_1()->getBackGroundTexture()))
 	{
 		std::cout << "Failed to load base background media!";
 	}
@@ -25,7 +25,7 @@ BBall::BBall()
 
 	scoreTexture = new BTexture;
 	livesTexture = new BTexture;
-	if (!loadScoreAndLivesMedia(gameScore, getBrick()->getLevel_1()->getBallLives()))
+	if (!loadScoreAndLivesMedia(gameScore, getBrickLevel_1()->getLevel_1()->getBallLives()))
 	{
 		std::cout << "Failed to load font for score media!\n";
 	}
@@ -36,17 +36,66 @@ BBall::BBall()
 	}
 	
 	//setup bricks
-	gBrick->setYellowBrick();
-	gBrick->setBlueBrick();
-	gBrick->setRedBrick();
+	gBrick_Level_1->setYellowBrick(false, gBrick_Level_1->getLevel_1()->getColumnCount(), gBrick_Level_1->getLevel_1()->getColumtSpacing());
+	gBrick_Level_1->setBlueBrick(false, gBrick_Level_1->getLevel_1()->getColumnCount(), gBrick_Level_1->getLevel_1()->getColumtSpacing());
+	gBrick_Level_1->setRedBrick(false, gBrick_Level_1->getLevel_1()->getColumnCount(), gBrick_Level_1->getLevel_1()->getColumtSpacing());
 
 	if (!gSound->loadMusicMedia())
 	{
 		std::cout << "Failed to load Sound!\n";
 	}
+
+	callDestructor = true;
 }
-BBall::~BBall()
+BGame::BGame(bool thirdLevel)
 {
+	gBrick_Level_2 = new BBricks(true);
+	gSound = new BSound;
+	//setup base background
+	baseBackgroundTexture = new BTexture;
+	gameOverBackground = new BTexture;
+	menuText = new BTexture;
+	if (!loadBackgroundMedia(getBrickLevel_2()->getLevel_2()->getBackGroundTexture()))
+	{
+		std::cout << "Failed to load base background media!";
+	}
+
+	bBallPosition.x = 360;
+	bBallPosition.y = 560;
+	bBallPreviousPosition = bBallPosition;
+
+	gameScore = 0;
+	brickHitCounter = 0;
+	lifeLost = false;
+
+	scoreTexture = new BTexture;
+	livesTexture = new BTexture;
+	if (!loadScoreAndLivesMedia(gameScore, getBrickLevel_2()->getLevel_2()->getBallLives()))
+	{
+		std::cout << "Failed to load font for score media!\n";
+	}
+	ballTexture = new BTexture;
+	if (!loadBallMedia())
+	{
+		std::cout << "Failed to load Ball media!\n";
+	}
+	
+	//setup bricks
+	gBrick_Level_2->setYellowBrick(true, gBrick_Level_2->getLevel_2()->getColumnCount(), gBrick_Level_2->getLevel_2()->getColumtSpacing());
+	gBrick_Level_2->setBlueBrick(true, gBrick_Level_2->getLevel_2()->getColumnCount(), gBrick_Level_2->getLevel_2()->getColumtSpacing());
+	gBrick_Level_2->setRedBrick(true, gBrick_Level_2->getLevel_2()->getColumnCount(), gBrick_Level_2->getLevel_2()->getColumtSpacing());
+	
+	if (!gSound->loadMusicMedia())
+	{
+		std::cout << "Failed to load Sound!\n";
+	}
+
+	callDestructor = false;
+}
+BGame::~BGame()
+{
+	if (callDestructor)
+	{
 	baseBackgroundTexture->clearTexture();
 	delete baseBackgroundTexture;
 	baseBackgroundTexture = NULL;
@@ -66,13 +115,16 @@ BBall::~BBall()
 	delete ballTexture;
 	ballTexture = NULL;
 
-	delete gBrick;
-	gBrick = NULL;
+	
+	delete gBrick_Level_1;
+	gBrick_Level_1 = NULL;
+	
 	delete gSound;
 	gSound = NULL;
+	}
 }
 
-bool BBall::loadBackgroundMedia(const char* path)
+bool BGame::loadBackgroundMedia(const char* path)
 {
 	//Loading success flag
 	bool success = true;
@@ -98,20 +150,20 @@ bool BBall::loadBackgroundMedia(const char* path)
 
 	return success;
 }
-void BBall::renderBackground(int x,int y)
+void BGame::renderBackground(int x,int y)
 {
 	baseBackgroundTexture->renderTexture(x, y);
 }
-void BBall::renderGameOverBackground(int x, int y)
+void BGame::renderGameOverBackground(int x, int y)
 {
 	gameOverBackground->renderTexture(x, y);
 }
-void BBall::renderMenu(int x, int y)
+void BGame::renderMenu(int x, int y)
 {
 	menuText->renderTexture(x, y);
 }
 
-BSound* BBall::getSound()
+BSound* BGame::getSound()
 {
 	return gSound;
 }
@@ -119,16 +171,16 @@ BSound* BBall::getSound()
 /*
 	Ball setup
 */
-void BBall::setBallPoint(int x, int y)
+void BGame::setBallPoint(int x, int y)
 {
 	bBallPosition.x = x;
 	bBallPosition.y = y;
 }
-int BBall::getBallSize() const
+int BGame::getBallSize() const
 {
 	return BALL_SIZE;
 }
-bool BBall::loadBallMedia()
+bool BGame::loadBallMedia()
 {
 	//Loading success flag
 	bool success = true;
@@ -141,17 +193,21 @@ bool BBall::loadBallMedia()
 
 	return success;
 }
-void BBall::renderBall(int x, int y)
+void BGame::renderBall(int x, int y)
 {
 	ballTexture->renderTexture(x, y);
 }
 
 //Movement/Collision events
-BBricks* BBall::getBrick()
+BBricks* BGame::getBrickLevel_1()
 {
-	return gBrick;
+	return gBrick_Level_1;
 }
-void BBall::ballMovementAndCollision(int board_x, int board_y)
+BBricks* BGame::getBrickLevel_2()
+{
+	return gBrick_Level_2;
+}
+void BGame::ballMovementAndCollision(int board_x, int board_y, bool levelState)
 {
 	//show/renderTexture ball
 	renderBall(bBallPosition.x, bBallPosition.y);
@@ -297,334 +353,37 @@ void BBall::ballMovementAndCollision(int board_x, int board_y)
 		bBallPosition.x--;
 		bBallPosition.y--;
 	}
-
 	
 	/*
 		Check if ball hit bricks and removes it
 	*/
-	for (int i = 0; i < getBrick()->getLevel_1()->getColumnCount(); i++)
+	if (!levelState)
+	{ 
+		brickCollision(getBrickLevel_1()->getLevel_1()->getColumnCount(), getBrickLevel_1());
+
+		//if ball misses board and falls below
+		if (bBallPosition.y > 600)
+		{
+			getBrickLevel_1()->getLevel_1()->setBallLives(getBrickLevel_1()->getLevel_1()->getBallLives() - 1);
+			lifeLost = true;
+		}
+	}
+	else
 	{
-		//checks if ball hits yellow bricks on Y-axis
-		if (bBallPosition.y < getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) && 
-			(bBallPosition.y+BALL_SIZE) > getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0))
-		{
-			//checks which brick did ball hit from below
-			if ((bBallPosition.x + BALL_SIZE) > getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0) &&
-				bBallPosition.x < getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(1) && 
-				bBallPosition.y < getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) &&
-				bBallPosition.y >= (getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) - 2))
-			{
-				//checks if ball hit brick from left
-				if (bBallPosition.x > bBallPreviousPosition.x)
-				{
-					stateReset();
-					removeYellowBricks(i);
-					onTopWallLeft = true;
-					break;
-				}
-				//checks if ball hit brick from right
-				else
-				{
-					stateReset();
-					removeYellowBricks(i);
-					onTopWallRight = true;
-					break;
-				}
-			}
-			//checks if ball hit brick from left
-			if (bBallPosition.x > bBallPreviousPosition.x)
-			{
-				//checks speed
-				if ((bBallPosition.x + BALL_SIZE) > getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0) &&
-					(bBallPosition.x + BALL_SIZE) <= (getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0) + 1) &&
-					bBallPosition.y < (getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) - 2) &&
-					(bBallPosition.y + BALL_SIZE) > (getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
-				{
-					//checks if ball came from above
-					if (bBallPosition.y > bBallPreviousPosition.y)
-					{
-						stateReset();
-						removeYellowBricks(i);
-						onRightWallAbove = true;
-						break;
-					}
-					//check if ball came from below
-					else
-					{
-						stateReset();
-						removeYellowBricks(i);
-						onRightWallBelow = true;
-						break;
-					}
-				}
-			}
-			//checks if ball hit brick on right side
-			else
-			{
-				//check speed
-				if (bBallPosition.x < getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(1) &&
-					bBallPosition.x >= (getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(1) - 1) &&
-					bBallPosition.y < (getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) - 2) &&
-					(bBallPosition.y + BALL_SIZE) >(getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
-				{
-					//checks if ball came from above
-					if (bBallPosition.y > bBallPreviousPosition.y)
-					{
-						stateReset();
-						removeYellowBricks(i);
-						onLeftWallAbove = true;
-						break;
-					}
-					//check if ball came from below
-					else
-					{
-						stateReset();
-						removeYellowBricks(i);
-						onLeftWallBelow = true;
-						break;
-					}
-				}
-			}
-			//checks if ball hit brick from above
-			if ((bBallPosition.x + BALL_SIZE) > getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0) && 
-				bBallPosition.x < getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(1) && 
-				(bBallPosition.y+BALL_SIZE) > getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0) &&
-				(bBallPosition.y+BALL_SIZE) <= (getBrick()->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
-			{
-				//checks if ball hit brick from left
-				if (bBallPosition.x > bBallPreviousPosition.x)
-				{
-					stateReset();
-					removeYellowBricks(i);
-					onRightBoardSide = true;
-					break;
-				}
-				//checks if ball hit brick from right
-				else
-				{
-					stateReset();
-					removeYellowBricks(i);
-					onLeftBoardSide = true;
-					break;
-				}
-			}
-		}
+		brickCollision(getBrickLevel_2()->getLevel_2()->getColumnCount(), getBrickLevel_2()); //TODO add lvl 2
 
-		//checks if ball hits blue bricks on Y-axis
-		if (bBallPosition.y < getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(1) &&
-			(bBallPosition.y + BALL_SIZE) > getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0))
+			//if ball misses board and falls below
+		if (bBallPosition.y > 600)
 		{
-			//checks which brick did ball hit from below
-			if ((bBallPosition.x + BALL_SIZE) > getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0) &&
-				bBallPosition.x < getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(1) &&
-				bBallPosition.y < getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(1) &&
-				bBallPosition.y >= (getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(1) - 2))
-			{
-				//checks if ball hit brick from left
-				if (bBallPosition.x > bBallPreviousPosition.x)
-				{
-					stateReset();
-					removeBlueBricks(i);
-					onTopWallLeft = true;
-					break;
-				}
-				//checks if ball hit brick from right
-				else
-				{
-					stateReset();
-					removeBlueBricks(i);
-					onTopWallRight = true;
-					break;
-				}
-			}
-			//checks if ball hit brick from left
-			if (bBallPosition.x > bBallPreviousPosition.x)
-			{
-				//check speed
-				if ((bBallPosition.x + BALL_SIZE) > getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0) &&
-					(bBallPosition.x + BALL_SIZE) <= (getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0) + 2))
-				{
-					//checks if ball came from above
-					if (bBallPosition.y > bBallPreviousPosition.y)
-					{
-						stateReset();
-						removeBlueBricks(i);
-						onRightWallAbove = true;
-						break;
-					}
-					//check if ball came from below
-					else
-					{
-						stateReset();
-						removeBlueBricks(i);
-						onRightWallBelow = true;
-						break;
-					}
-				}
-			}
-			//checks if ball hit brick from right
-			else
-			{
-				//check speed
-				if (bBallPosition.x < getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(1) &&
-					bBallPosition.x >= (getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(1) - 1))
-				{
-					//checks if ball came from above
-					if (bBallPosition.y > bBallPreviousPosition.y)
-					{
-						stateReset();
-						removeBlueBricks(i);
-						onLeftWallAbove = true;
-						break;
-					}
-					//check if ball came from below
-					else
-					{
-						stateReset();
-						removeBlueBricks(i);
-						onLeftWallBelow = true;
-						break;
-					}
-				}
-			}
-			//checks if ball hit brick from above
-			if ((bBallPosition.x + BALL_SIZE) > getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0) &&
-				bBallPosition.x < getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(1) &&
-				(bBallPosition.y + BALL_SIZE) > getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0) &&
-				(bBallPosition.y + BALL_SIZE) <= (getBrick()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
-			{
-				//checks if ball hit brick from left
-				if (bBallPosition.x > bBallPreviousPosition.x)
-				{
-					stateReset();
-					removeBlueBricks(i);
-					onRightBoardSide = true;
-					break;
-				}
-				//checks if ball hit brick from right
-				else
-				{
-					stateReset();
-					removeBlueBricks(i);
-					onLeftBoardSide = true;
-					break;
-				}
-			}
-		}
-
-		//checks if ball hits red bricks on Y-axis
-		if (bBallPosition.y < getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(1) &&
-			(bBallPosition.y + BALL_SIZE) > getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0))
-		{
-			//checks which brick did ball hit from below
-			if ((bBallPosition.x + BALL_SIZE) > getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0) &&
-				bBallPosition.x < getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(1) &&
-				bBallPosition.y < getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(1) &&
-				bBallPosition.y >= (getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(1) - 2))
-			{
-				//checks if ball hit brick from left
-				if (bBallPosition.x > bBallPreviousPosition.x)
-				{
-					stateReset();
-					removeRedBricks(i);
-					onTopWallLeft = true;
-					break;
-				}
-				//checks if ball hit brick from right
-				else
-				{
-					stateReset();
-					removeRedBricks(i);
-					onTopWallRight = true;
-					break;
-				}
-			}
-			//checks if ball hit brick from left
-			if (bBallPosition.x > bBallPreviousPosition.x)
-			{
-				//check speed
-				if ((bBallPosition.x + BALL_SIZE) > getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0) &&
-					(bBallPosition.x + BALL_SIZE) <= (getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0) + 1))
-				{
-					//checks if ball came from above
-					if (bBallPosition.y > bBallPreviousPosition.y)
-					{
-						stateReset();
-						removeRedBricks(i);
-						onRightWallAbove = true;
-						break;
-					}
-					//check if ball came from below
-					else
-					{
-						stateReset();
-						removeRedBricks(i);
-						onRightWallBelow = true;
-						break;
-					}
-				}
-			}
-			//checks if ball hit brick from right
-			else
-			{
-				//check speed
-				if (bBallPosition.x < getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(1) &&
-					bBallPosition.x >= (getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(1) - 1))
-				{
-					//checks if ball came from above
-					if (bBallPosition.y > bBallPreviousPosition.y)
-					{
-						stateReset();
-						removeRedBricks(i);
-						onLeftWallAbove = true;
-						break;
-					}
-					//check if ball came from below
-					else
-					{
-						stateReset();
-						removeRedBricks(i);
-						onLeftWallBelow = true;
-						break;
-					}
-				}
-			}
-			//checks if ball hit brick from above
-			if ((bBallPosition.x + BALL_SIZE) > getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0) &&
-				bBallPosition.x < getBrick()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(1) &&
-				(bBallPosition.y + BALL_SIZE) > getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0) &&
-				(bBallPosition.y + BALL_SIZE) <= (getBrick()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
-			{
-				//checks if ball hit brick from left
-				if (bBallPosition.x > bBallPreviousPosition.x)
-				{
-					stateReset();
-					removeRedBricks(i);
-					onRightBoardSide = true;
-					break;
-				}
-				//checks if ball hit brick from right
-				else
-				{
-					stateReset();
-					removeRedBricks(i);
-					onLeftBoardSide = true;
-					break;
-				}
-			}
+			getBrickLevel_2()->getLevel_2()->setBallLives(getBrickLevel_2()->getLevel_2()->getBallLives() - 1);
+			lifeLost = true;
 		}
 	}
 
-	//if ball misses board and falls below
-	if (bBallPosition.y > 600)
-	{
-		getBrick()->getLevel_1()->setBallLives(getBrick()->getLevel_1()->getBallLives() - 1);
-		lifeLost = true;
-	}
 
 }
 //Ball states reset
-void BBall::stateReset()
+void BGame::stateReset()
 {
 	onLeftBoardSide = false;
 	onRightBoardSide = false;
@@ -635,70 +394,386 @@ void BBall::stateReset()
 	onRightWallAbove = false;
 	onRightWallBelow = false;
 }
+void BGame::brickCollision(int size, BBricks* getBrickLevel)
+{
+	for (int i = 0; i < size; i++)
+	{
+		//checks if ball hits yellow bricks on Y-axis
+		if (bBallPosition.y < getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) &&
+			(bBallPosition.y + BALL_SIZE) > getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0))
+		{
+			//checks which brick did ball hit from below
+			if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0) &&
+				bBallPosition.x < getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(1) &&
+				bBallPosition.y < getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) &&
+				bBallPosition.y >= (getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) - 2))
+			{
+				//checks if ball hit brick from left
+				if (bBallPosition.x > bBallPreviousPosition.x)
+				{
+					stateReset();
+					removeYellowBricks(i, getBrickLevel);
+					onTopWallLeft = true;
+					break;
+				}
+				//checks if ball hit brick from right
+				else
+				{
+					stateReset();
+					removeYellowBricks(i, getBrickLevel);
+					onTopWallRight = true;
+					break;
+				}
+			}
+			//checks if ball hit brick from left
+			if (bBallPosition.x > bBallPreviousPosition.x)
+			{
+				//checks speed
+				if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0) &&
+					(bBallPosition.x + BALL_SIZE) <= (getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0) + 1) &&
+					bBallPosition.y < (getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) - 2) &&
+					(bBallPosition.y + BALL_SIZE) >(getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
+				{
+					//checks if ball came from above
+					if (bBallPosition.y > bBallPreviousPosition.y)
+					{
+						stateReset();
+						removeYellowBricks(i, getBrickLevel);
+						onRightWallAbove = true;
+						break;
+					}
+					//check if ball came from below
+					else
+					{
+						stateReset();
+						removeYellowBricks(i, getBrickLevel);
+						onRightWallBelow = true;
+						break;
+					}
+				}
+			}
+			//checks if ball hit brick on right side
+			else
+			{
+				//check speed
+				if (bBallPosition.x < getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(1) &&
+					bBallPosition.x >= (getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(1) - 1) &&
+					bBallPosition.y < (getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(1) - 2) &&
+					(bBallPosition.y + BALL_SIZE) >(getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
+				{
+					//checks if ball came from above
+					if (bBallPosition.y > bBallPreviousPosition.y)
+					{
+						stateReset();
+						removeYellowBricks(i, getBrickLevel);
+						onLeftWallAbove = true;
+						break;
+					}
+					//check if ball came from below
+					else
+					{
+						stateReset();
+						removeYellowBricks(i, getBrickLevel);
+						onLeftWallBelow = true;
+						break;
+					}
+				}
+			}
+			//checks if ball hit brick from above
+			if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(0) &&
+				bBallPosition.x < getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_X_Element(1) &&
+				(bBallPosition.y + BALL_SIZE) > getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0) &&
+				(bBallPosition.y + BALL_SIZE) <= (getBrickLevel->getSoftYellowBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
+			{
+				//checks if ball hit brick from left
+				if (bBallPosition.x > bBallPreviousPosition.x)
+				{
+					stateReset();
+					removeYellowBricks(i, getBrickLevel);
+					onRightBoardSide = true;
+					break;
+				}
+				//checks if ball hit brick from right
+				else
+				{
+					stateReset();
+					removeYellowBricks(i, getBrickLevel);
+					onLeftBoardSide = true;
+					break;
+				}
+			}
+		}
+
+		//checks if ball hits blue bricks on Y-axis
+		if (bBallPosition.y < getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(1) &&
+			(bBallPosition.y + BALL_SIZE) > getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0))
+		{
+			//checks which brick did ball hit from below
+			if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0) &&
+				bBallPosition.x < getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(1) &&
+				bBallPosition.y < getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(1) &&
+				bBallPosition.y >= (getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(1) - 2))
+			{
+				//checks if ball hit brick from left
+				if (bBallPosition.x > bBallPreviousPosition.x)
+				{
+					stateReset();
+					removeBlueBricks(i, getBrickLevel);
+					onTopWallLeft = true;
+					break;
+				}
+				//checks if ball hit brick from right
+				else
+				{
+					stateReset();
+					removeBlueBricks(i, getBrickLevel);
+					onTopWallRight = true;
+					break;
+				}
+			}
+			//checks if ball hit brick from left
+			if (bBallPosition.x > bBallPreviousPosition.x)
+			{
+				//check speed
+				if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0) &&
+					(bBallPosition.x + BALL_SIZE) <= (getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0) + 2))
+				{
+					//checks if ball came from above
+					if (bBallPosition.y > bBallPreviousPosition.y)
+					{
+						stateReset();
+						removeBlueBricks(i, getBrickLevel);
+						onRightWallAbove = true;
+						break;
+					}
+					//check if ball came from below
+					else
+					{
+						stateReset();
+						removeBlueBricks(i, getBrickLevel);
+						onRightWallBelow = true;
+						break;
+					}
+				}
+			}
+			//checks if ball hit brick from right
+			else
+			{
+				//check speed
+				if (bBallPosition.x < getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(1) &&
+					bBallPosition.x >= (getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(1) - 1))
+				{
+					//checks if ball came from above
+					if (bBallPosition.y > bBallPreviousPosition.y)
+					{
+						stateReset();
+						removeBlueBricks(i, getBrickLevel);
+						onLeftWallAbove = true;
+						break;
+					}
+					//check if ball came from below
+					else
+					{
+						stateReset();
+						removeBlueBricks(i, getBrickLevel);
+						onLeftWallBelow = true;
+						break;
+					}
+				}
+			}
+			//checks if ball hit brick from above
+			if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0) &&
+				bBallPosition.x < getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(1) &&
+				(bBallPosition.y + BALL_SIZE) > getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0) &&
+				(bBallPosition.y + BALL_SIZE) <= (getBrickLevel->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
+			{
+				//checks if ball hit brick from left
+				if (bBallPosition.x > bBallPreviousPosition.x)
+				{
+					stateReset();
+					removeBlueBricks(i, getBrickLevel);
+					onRightBoardSide = true;
+					break;
+				}
+				//checks if ball hit brick from right
+				else
+				{
+					stateReset();
+					removeBlueBricks(i, getBrickLevel);
+					onLeftBoardSide = true;
+					break;
+				}
+			}
+		}
+
+		//checks if ball hits red bricks on Y-axis
+		if (bBallPosition.y < getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(1) &&
+			(bBallPosition.y + BALL_SIZE) > getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0))
+		{
+			//checks which brick did ball hit from below
+			if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0) &&
+				bBallPosition.x < getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_X_Element(1) &&
+				bBallPosition.y < getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(1) &&
+				bBallPosition.y >= (getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(1) - 2))
+			{
+				//checks if ball hit brick from left
+				if (bBallPosition.x > bBallPreviousPosition.x)
+				{
+					stateReset();
+					removeRedBricks(i, getBrickLevel);
+					onTopWallLeft = true;
+					break;
+				}
+				//checks if ball hit brick from right
+				else
+				{
+					stateReset();
+					removeRedBricks(i, getBrickLevel);
+					onTopWallRight = true;
+					break;
+				}
+			}
+			//checks if ball hit brick from left
+			if (bBallPosition.x > bBallPreviousPosition.x)
+			{
+				//check speed
+				if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0) &&
+					(bBallPosition.x + BALL_SIZE) <= (getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0) + 1))
+				{
+					//checks if ball came from above
+					if (bBallPosition.y > bBallPreviousPosition.y)
+					{
+						stateReset();
+						removeRedBricks(i, getBrickLevel);
+						onRightWallAbove = true;
+						break;
+					}
+					//check if ball came from below
+					else
+					{
+						stateReset();
+						removeRedBricks(i, getBrickLevel);
+						onRightWallBelow = true;
+						break;
+					}
+				}
+			}
+			//checks if ball hit brick from right
+			else
+			{
+				//check speed
+				if (bBallPosition.x < getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_X_Element(1) &&
+					bBallPosition.x >= (getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_X_Element(1) - 1))
+				{
+					//checks if ball came from above
+					if (bBallPosition.y > bBallPreviousPosition.y)
+					{
+						stateReset();
+						removeRedBricks(i, getBrickLevel);
+						onLeftWallAbove = true;
+						break;
+					}
+					//check if ball came from below
+					else
+					{
+						stateReset();
+						removeRedBricks(i, getBrickLevel);
+						onLeftWallBelow = true;
+						break;
+					}
+				}
+			}
+			//checks if ball hit brick from above
+			if ((bBallPosition.x + BALL_SIZE) > getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0) &&
+				bBallPosition.x < getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_X_Element(1) &&
+				(bBallPosition.y + BALL_SIZE) > getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0) &&
+				(bBallPosition.y + BALL_SIZE) <= (getBrickLevel->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0) + 2))
+			{
+				//checks if ball hit brick from left
+				if (bBallPosition.x > bBallPreviousPosition.x)
+				{
+					stateReset();
+					removeRedBricks(i, getBrickLevel);
+					onRightBoardSide = true;
+					break;
+				}
+				//checks if ball hit brick from right
+				else
+				{
+					stateReset();
+					removeRedBricks(i, getBrickLevel);
+					onLeftBoardSide = true;
+					break;
+				}
+			}
+		}
+	}
+}
+
 
 /*
 	Clear bricks from gametable and its texture
 */
-void BBall::removeYellowBricks(int index)
+void BGame::removeYellowBricks(int index, BBricks* getBrickLevel)
 {
 	Mix_PlayChannel(-1, gSound->gLow, 0);
-	getBrick()->getSoftYellowBrick(index)->setHitPoints(getBrick()->getSoftYellowBrick(index)->getHitPoints() - 1);
-	if (getBrick()->getSoftYellowBrick(index)->getHitPoints() == 0)
+	getBrickLevel->getSoftYellowBrick(index)->setHitPoints(getBrickLevel->getSoftYellowBrick(index)->getHitPoints() - 1);
+	if (getBrickLevel->getSoftYellowBrick(index)->getHitPoints() == 0)
 	{ 
 		//brickHitCounter++;
-		setScore(getBrick()->getSoftYellowBrick(index)->getBreakScore());
-		getBrick()->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
-		getBrick()->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
-		getBrick()->getSoftYellowBrick(index)->clearYellowTexture();
+		setScore(getBrickLevel->getSoftYellowBrick(index)->getBreakScore());
+		getBrickLevel->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
+		getBrickLevel->getSoftYellowBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
+		getBrickLevel->getSoftYellowBrick(index)->clearYellowTexture();
 	}
 }
-void BBall::removeBlueBricks(int index)
+void BGame::removeBlueBricks(int index, BBricks* getBrickLevel)
 {            
 	Mix_PlayChannel(-1, gSound->gLow, 0);
-	getBrick()->getMediumBlueBrick(index)->setHitPoints(getBrick()->getMediumBlueBrick(index)->getHitPoints() - 1);
-	if (getBrick()->getMediumBlueBrick(index)->getHitPoints() == 0)
+	getBrickLevel->getMediumBlueBrick(index)->setHitPoints(getBrickLevel->getMediumBlueBrick(index)->getHitPoints() - 1);
+	if (getBrickLevel->getMediumBlueBrick(index)->getHitPoints() == 0)
 	{ 
 		//brickHitCounter++;
-		setScore(getBrick()->getMediumBlueBrick(index)->getBreakScore());
-		getBrick()->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
-		getBrick()->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
-		getBrick()->getMediumBlueBrick(index)->clearBlueTexture();
+		setScore(getBrickLevel->getMediumBlueBrick(index)->getBreakScore());
+		getBrickLevel->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
+		getBrickLevel->getMediumBlueBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
+		getBrickLevel->getMediumBlueBrick(index)->clearBlueTexture();
 	}
 }
-void BBall::removeRedBricks(int index)
+void BGame::removeRedBricks(int index, BBricks* getBrickLevel)
 {
 	Mix_PlayChannel(-1, gSound->gLow, 0);
-	getBrick()->getHardRedBrick(index)->setHitPoints(getBrick()->getHardRedBrick(index)->getHitPoints() - 1);
-	if (getBrick()->getHardRedBrick(index)->getHitPoints() == 0)
+	getBrickLevel->getHardRedBrick(index)->setHitPoints(getBrickLevel->getHardRedBrick(index)->getHitPoints() - 1);
+	if (getBrickLevel->getHardRedBrick(index)->getHitPoints() == 0)
 	{ 
 		//brickHitCounter++;
-		setScore(getBrick()->getHardRedBrick(index)->getBreakScore());
-		getBrick()->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
-		getBrick()->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
-		getBrick()->getHardRedBrick(index)->clearRedTexture();
+		setScore(getBrickLevel->getHardRedBrick(index)->getBreakScore());
+		getBrickLevel->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(0, 658);
+		getBrickLevel->getHardRedBrick(index)->setBrickBoarderOn_Y_Element(1, 0);
+		getBrickLevel->getHardRedBrick(index)->clearRedTexture();
 	}
 }
 
 /*
 	SETs/GETs
 */
-void BBall::setScore(int addScore)
+void BGame::setScore(int addScore)
 {
 	this->gameScore += addScore;
 }
-int BBall::getScore()
+int BGame::getScore()
 {
 	return this->gameScore;
 }
-int BBall::getHitCounter()
+int BGame::getHitCounter()
 {
 	return this->brickHitCounter;
 }
-void BBall::updateHitCounter()
+void BGame::updateHitCounter()
 {
 	this->brickHitCounter = 0;
 }
-bool BBall::getLifeLostState()
+bool BGame::getLifeLostState()
 {
 	return lifeLost;
 }
@@ -706,15 +781,15 @@ bool BBall::getLifeLostState()
 /*
 	Setup text/font for score
 */
-BTexture* BBall::getScoreTexture()
+BTexture* BGame::getScoreTexture()
 {
 	return scoreTexture;
 }
-BTexture* BBall::getLivesTexture()
+BTexture* BGame::getLivesTexture()
 {
 	return livesTexture;
 }
-bool BBall::loadScoreAndLivesMedia(int gameScore, int livesLeft)
+bool BGame::loadScoreAndLivesMedia(int gameScore, int livesLeft)
 {
 	//Loading success flag
 	bool success = true;

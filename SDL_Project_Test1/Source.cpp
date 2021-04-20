@@ -1,5 +1,5 @@
 #include "BPlayerControl.h"
-#include "BBall.h"
+#include "BGame.h"
 #include "BGame_Level_1_2.h"
 #include "BGame_Level_2.h"
 
@@ -142,7 +142,7 @@ void startGame()
             //lvl1
             if (Lvl1->getGameStart())
             {
-                Lvl1->mainGameLoop();
+                Lvl1->mainGameLoop(lvl_2_state);
             }
             else
             {
@@ -155,7 +155,7 @@ void startGame()
                 //lvl_1_state = false;
                 lvl_2_state = true;
                 passTheScore = Lvl1->getBall()->getScore();
-                passLives = Lvl1->getBall()->getBrick()->getLevel_1()->getBallLives();
+                passLives = Lvl1->getBall()->getBrickLevel_1()->getLevel_1()->getBallLives();
                 break;
             }
 
@@ -178,18 +178,21 @@ void startGame()
                 }
             }
         }
+        
         //delete level 1
         delete Lvl1;
 
         //create Level 2 
         BGame_Level_2* Lvl2 = new BGame_Level_2;
+        
         Lvl2->getBall()->setScore(passTheScore);
-        Lvl2->getBall()->getBrick()->getLevel_1()->setBallLives(passLives);
-        Lvl2->getBall()->loadScoreAndLivesMedia(Lvl2->getBall()->getScore(), Lvl2->getBall()->getBrick()->getLevel_1()->getBallLives());
+        Lvl2->getBall()->getBrickLevel_2()->getLevel_2()->setBallLives(passLives);
+        
+        Lvl2->getBall()->loadScoreAndLivesMedia(Lvl2->getBall()->getScore(), Lvl2->getBall()->getBrickLevel_2()->getLevel_2()->getBallLives());
         bool updateLevel_2 = false;
         //Lvl2->updateLevel();
         if (lvl_2_state)
-        { 
+        {
             while (!quit)
             {
                 //Handle events on queue
@@ -218,13 +221,13 @@ void startGame()
                 //lvl2
                 if (Lvl2->getGameStart())
                 {
-                    Lvl2->mainGameLoop();
+                    Lvl2->mainGameLoop(lvl_2_state);
                 }
                 else
                 {
-                    Lvl2->standByLoop();
+                    Lvl2->standByLoop(lvl_2_state);
                 }
-
+                
                 //Update level
                 if (Lvl2->getBall()->getHitCounter() == 5)
                 {
@@ -244,7 +247,7 @@ void startGame()
                     //lvl_2_state = false;
                     lvl_3_state = true;
                     passTheScore = Lvl2->getBall()->getScore();
-                    passLives = Lvl2->getBall()->getBrick()->getLevel_1()->getBallLives();
+                    passLives = Lvl2->getBall()->getBrickLevel_2()->getLevel_2()->getBallLives();
                     break;
                 }
 
@@ -274,8 +277,8 @@ void startGame()
         //Create level 3
         BGame_Level_2* Lvl3 = new BGame_Level_2;
         Lvl3->getBall()->setScore(passTheScore);
-        Lvl3->getBall()->getBrick()->getLevel_1()->setBallLives(passLives);
-        Lvl3->getBall()->loadScoreAndLivesMedia(Lvl3->getBall()->getScore(), Lvl3->getBall()->getBrick()->getLevel_1()->getBallLives());
+        Lvl3->getBall()->getBrickLevel_1()->getLevel_1()->setBallLives(passLives);
+        Lvl3->getBall()->loadScoreAndLivesMedia(Lvl3->getBall()->getScore(), Lvl3->getBall()->getBrickLevel_1()->getLevel_1()->getBallLives());
         if (lvl_3_state)
         {
             while (!quit)

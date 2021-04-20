@@ -148,7 +148,7 @@
     <ClCompile Include="BGraphics.cpp" />
     <ClCompile Include="BPlayerControl.cpp" />
     <ClCompile Include="BBrickType.cpp" />
-    <ClCompile Include="BBall.cpp" />
+    <ClCompile Include="BGame.cpp" />
     <ClCompile Include="BBricks.cpp" />
     <ClCompile Include="BSound.cpp" />
     <ClCompile Include="BGame_Level_1_2.cpp" />
@@ -164,7 +164,7 @@
     <ClInclude Include="BTexture.h" />
     <ClInclude Include="BPlayerControl.h" />
     <ClInclude Include="game-test1.h" />
-    <ClInclude Include="BBall.h" />
+    <ClInclude Include="BGame.h" />
     <ClInclude Include="BBricks.h" />
     <ClInclude Include="BSound.h" />
     <ClInclude Include="BGame_Level_1_2.h" />

@@ -8,6 +8,7 @@ class BBricks : public BBrickType, public BGraphics
 public:
 	//Construcor
 	BBricks();
+	BBricks(bool thirdLevel);
 	//Destructor
 	~BBricks();
 
@@ -21,9 +22,9 @@ public:
 	BLevel* getLevel_2();
 
 	//SET for Bricks
-	void setYellowBrick();
-	void setBlueBrick();
-	void setRedBrick();
+	void setYellowBrick(bool thridLevel, int columnCount, int rowSpacing);
+	void setBlueBrick(bool thridLevel, int columnCount, int rowSpacing);
+	void setRedBrick(bool thridLevel, int columnCount, int rowSpacing);
 	void setPurpleBrick();
 
 	//TODO - CHECK IF THERE ARE NEEDED
@@ -44,10 +45,16 @@ private:
 	BLevel* Level_1;
 	BLevel* Level_2;
 
+	//flag for destructor
+	bool callDestructor = false;
+
 	//Bricks row start positions on Y axis
 	int BrickSoftYellow_Y_FromStart;
+	int BrickSoftYellow_Y_ToEnd;
 	int BrickMediumBlue_Y_FromStart;
+	int BrickMediumBlue_Y_ToEnd;
 	int BrickHardRed_Y_FromStart;
+	int BrickHardRed_Y_ToEnd;
 	int BrickImpenetrable_Y_FromStart;
-	int BrickImpenetrable_Y_ToEnd;
+	
 };

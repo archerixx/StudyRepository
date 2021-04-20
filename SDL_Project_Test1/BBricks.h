@@ -1,7 +1,7 @@
 #pragma once
 
 #include "BBrickType.h"
-#include "BLevel.h"
+#include "BLevelLayout.h"
 
 class BBricks : public BBrickType, public BGraphics
 {
@@ -18,8 +18,8 @@ public:
 	BBrickType* getHardRedBrick(int element);
 	BBrickType* getImpenetrablePurpleBrick(int element);
 	//GET current level
-	BLevel* getLevel_1();
-	BLevel* getLevel_2();
+	BLevelLayout* getLevel_1();
+	BLevelLayout* getLevel_2();
 
 	//SET for Bricks
 	void setYellowBrick(bool thridLevel, int columnCount, int rowSpacing);
@@ -42,8 +42,8 @@ private:
 	BBrickType** BrickImpenetrablePurple;
 
 	//Level 1
-	BLevel* Level_1;
-	BLevel* Level_2;
+	BLevelLayout* Level_1;
+	BLevelLayout* Level_2;
 
 	//flag for destructor
 	bool callDestructor = false;

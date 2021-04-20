@@ -2,7 +2,7 @@
 
 BBricks::BBricks()
 {
-    Level_1 = new BLevel();
+    Level_1 = new BLevelLayout();
 
     BrickSoftYellow = new BBrickType*[Level_1->getColumnCount()];
     BrickMediumBlue = new BBrickType*[Level_1->getColumnCount()];
@@ -30,7 +30,7 @@ BBricks::BBricks()
 }
 BBricks::BBricks(bool thirdLevel)
 {
-    Level_2 = new BLevel(4, 18, 5, 5, "SDL_Image_Imports/retro_arcade_background.png", 3);
+    Level_2 = new BLevelLayout(4, 18, 5, 5, "SDL_Image_Imports/retro_arcade_background.png", 3);
 
     BrickSoftYellow = new BBrickType * [Level_2->getColumnCount()];
     BrickMediumBlue = new BBrickType * [Level_2->getColumnCount()];
@@ -107,11 +107,11 @@ BBrickType* BBricks::getImpenetrablePurpleBrick(int element)
 {
     return *(BrickImpenetrablePurple + element);;
 }
-BLevel* BBricks::getLevel_1()
+BLevelLayout* BBricks::getLevel_1()
 {
     return Level_1;
 }
-BLevel* BBricks::getLevel_2()
+BLevelLayout* BBricks::getLevel_2()
 {
     return Level_2;
 }

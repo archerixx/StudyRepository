@@ -1,11 +1,11 @@
 #pragma once
 
-class BLevel 
+class BLevelLayout 
 {
 public:
 	//Constructors
-	BLevel();
-	BLevel(int rowCount, int columnCount, int rowSpacing, int columnSpacing, const char* backGroundTexture, int ballLives);
+	BLevelLayout();
+	BLevelLayout(int rowCount, int columnCount, int rowSpacing, int columnSpacing, const char* backGroundTexture, int ballLives);
 
 	//GET class variables
 	int getRowCount() const;

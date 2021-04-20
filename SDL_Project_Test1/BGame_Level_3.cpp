@@ -1,6 +1,6 @@
-#include "BGame_Level_2.h"
+#include "BGame_Level_3.h"
 
-BGame_Level_2::BGame_Level_2()
+BGame_Level_3::BGame_Level_3()
 {
     gGame_Level_3 = new BGame(true);
     gPlayer = new BPlayerControl;
@@ -14,24 +14,24 @@ BGame_Level_2::BGame_Level_2()
 
 }
 
-BGame_Level_2::~BGame_Level_2()
+BGame_Level_3::~BGame_Level_3()
 {
     //gGame->~BGame();
     //gPlayer->~BPlayerControl();
     //delete gGame_Level_3;
     delete gPlayer;
 }
-BGame* BGame_Level_2::getBall()
+BGame* BGame_Level_3::getBall()
 {
     return gGame_Level_3;
 }
 
-BPlayerControl* BGame_Level_2::getPlayer()
+BPlayerControl* BGame_Level_3::getPlayer()
 {
     return gPlayer;
 }
 
-void BGame_Level_2::updateLevel()
+void BGame_Level_3::updateLevel()
 {
     for (int i = 0; i < gGame_Level_3->getBrickLevel_2()->getLevel_2()->getColumnCount(); i++)
     {
@@ -41,7 +41,7 @@ void BGame_Level_2::updateLevel()
     }
 }
 
-void BGame_Level_2::mainGameLoop(bool levelState)
+void BGame_Level_3::mainGameLoop(bool levelState)
 {
     //Clear screen
     //SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
@@ -106,7 +106,7 @@ void BGame_Level_2::mainGameLoop(bool levelState)
     SDL_RenderPresent(baseRenderer);
 }
 
-void BGame_Level_2::standByLoop(bool levelState)
+void BGame_Level_3::standByLoop(bool levelState)
 {
     //Clear screen
     SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
@@ -124,11 +124,7 @@ void BGame_Level_2::standByLoop(bool levelState)
         gGame_Level_3->getBrickLevel_2()->getMediumBlueBrick(i)->renderBlueBrick(gGame_Level_3->getBrickLevel_2()->getMediumBlueBrick(i)->getBrickBoarderOn_X_Element(0), gGame_Level_3->getBrickLevel_2()->getMediumBlueBrick(i)->getBrickBoarderOn_Y_Element(0));
         gGame_Level_3->getBrickLevel_2()->getHardRedBrick(i)->renderRedBrick(gGame_Level_3->getBrickLevel_2()->getHardRedBrick(i)->getBrickBoarderOn_X_Element(0), gGame_Level_3->getBrickLevel_2()->getHardRedBrick(i)->getBrickBoarderOn_Y_Element(0));
     }
-    //for (int i = 0; i < 22; i++)
-    //{
-    //    gGame->getBrickLevel_2()->getImpenetrablePurpleBrick(i)->renderPurpleBrick(gGame->getBrickLevel_2()->getImpenetrablePurpleBrick(i)->getBrickBoarderOn_X_Element(0), gGame->getBrickLevel_2()->getImpenetrablePurpleBrick(i)->getBrickBoarderOn_Y_Element(0));
-   // }
-    //render ball on board
+
     gGame_Level_3->setBallPoint(gPlayer->getBoardPosition().x + gGame_Level_3->getBoardWidth() / 2, gPlayer->getBoardPosition().y - gGame_Level_3->getBallSize());
     gGame_Level_3->renderBall(gPlayer->getBoardPosition().x + gGame_Level_3->getBoardWidth() / 2, gPlayer->getBoardPosition().y - gGame_Level_3->getBallSize());
 
@@ -143,7 +139,7 @@ void BGame_Level_2::standByLoop(bool levelState)
     SDL_RenderPresent(baseRenderer);
 }
 
-void BGame_Level_2::gameOverLoop()
+void BGame_Level_3::gameOverLoop()
 {
     //Clear screen
     SDL_SetRenderDrawColor(baseRenderer, 255, 255, 255, 255);
@@ -158,17 +154,17 @@ void BGame_Level_2::gameOverLoop()
     SDL_RenderPresent(baseRenderer);
 }
 
-void BGame_Level_2::setGameStart(bool state)
+void BGame_Level_3::setGameStart(bool state)
 {
     start = state;
 }
 
-bool BGame_Level_2::getGameStart()
+bool BGame_Level_3::getGameStart()
 {
     return start;
 }
 
-bool BGame_Level_2::getGameOver()
+bool BGame_Level_3::getGameOver()
 {
     return gameOver;
 }

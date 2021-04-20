@@ -1,6 +1,6 @@
-#include "BLevel.h"
+#include "BLevelLayout.h"
 
-BLevel::BLevel()
+BLevelLayout::BLevelLayout()
 {
 	brickRowCount = 3;
 	brickColumnCount = 11;
@@ -10,7 +10,7 @@ BLevel::BLevel()
 	ballLives = 3;
 }
 
-BLevel::BLevel(int rowCount, int columnCount, int rowSpacing, int columnSpacing, const char* backGroundTexture, int ballLives)
+BLevelLayout::BLevelLayout(int rowCount, int columnCount, int rowSpacing, int columnSpacing, const char* backGroundTexture, int ballLives)
 {
 	this->brickRowCount = rowCount;
 	this->brickColumnCount = columnCount;
@@ -23,27 +23,27 @@ BLevel::BLevel(int rowCount, int columnCount, int rowSpacing, int columnSpacing,
 /*
 	GETs
 */
-int BLevel::getRowCount() const
+int BLevelLayout::getRowCount() const
 {
 	return brickRowCount;
 }
-int BLevel::getColumnCount() const
+int BLevelLayout::getColumnCount() const
 {
 	return brickColumnCount;
 }
-int BLevel::getRowSpacing() const
+int BLevelLayout::getRowSpacing() const
 {
 	return brickRowSpacing;
 }
-int BLevel::getColumtSpacing() const
+int BLevelLayout::getColumtSpacing() const
 {
 	return brickColumnSpacing;
 }
-const char* BLevel::getBackGroundTexture() const
+const char* BLevelLayout::getBackGroundTexture() const
 {
 	return backgroundTexture;
 }
-int BLevel::getBallLives() const
+int BLevelLayout::getBallLives() const
 {
 	return ballLives;
 }
@@ -51,27 +51,27 @@ int BLevel::getBallLives() const
 /*
 	SETs
 */
-void BLevel::setBrickRowCount(int rowCount)
+void BLevelLayout::setBrickRowCount(int rowCount)
 {
 	this->brickRowCount = rowCount;
 }
-void BLevel::setBrickColumnCount(int columnCount)
+void BLevelLayout::setBrickColumnCount(int columnCount)
 {
 	this->brickColumnCount = columnCount;
 }
-void BLevel::setBrickRowSpacing(int rowSpacing)
+void BLevelLayout::setBrickRowSpacing(int rowSpacing)
 {
 	this->brickRowSpacing = rowSpacing;
 }
-void BLevel::setbrickColumnSpacing(int columnSpacing)
+void BLevelLayout::setbrickColumnSpacing(int columnSpacing)
 {
 	this->brickColumnSpacing = columnSpacing;
 }
-void BLevel::setBackgroundTexture(const char* backgroundTexture)
+void BLevelLayout::setBackgroundTexture(const char* backgroundTexture)
 {
 	this->backgroundTexture = backgroundTexture;
 }
-void BLevel::setBallLives(int lifesLeft)
+void BLevelLayout::setBallLives(int lifesLeft)
 {
 	this->ballLives = lifesLeft;
 }

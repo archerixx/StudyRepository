@@ -122,8 +122,8 @@ void BGame_Level_1_2::standByLoop()
     gPlayer->renderPlayerBoard();
 
     //Render current frame
-    //gGame->getScoreTexture()->renderTexture(GAME_SCORE_POSITION_X, GAME_SCORE_AND_LIVES_POSITION_Y);
-    //gGame->getLivesTexture()->renderTexture(GAME_LIVES_POSITION_X, GAME_SCORE_AND_LIVES_POSITION_Y);
+    gBall->getScoreTexture()->renderTexture(GAME_SCORE_POSITION_X, GAME_SCORE_AND_LIVES_POSITION_Y);
+    gBall->getLivesTexture()->renderTexture(GAME_LIVES_POSITION_X, GAME_SCORE_AND_LIVES_POSITION_Y);
 
     //Update screen
     SDL_RenderPresent(baseRenderer);

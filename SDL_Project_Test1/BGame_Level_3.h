@@ -3,11 +3,11 @@
 #include "BPlayerControl.h"
 #include "BGame.h"
 
-class BGame_Level_2
+class BGame_Level_3
 {
 public:
-    BGame_Level_2();
-    ~BGame_Level_2();
+    BGame_Level_3();
+    ~BGame_Level_3();
 
     BGame* getBall();
     BPlayerControl* getPlayer();

@@ -13,15 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\SDL_Test">
-      <UniqueIdentifier>{4c4ab944-40ae-49d1-8fc4-e358e6c50bb6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Breakout">
       <UniqueIdentifier>{40860182-7812-4c98-821c-dde16accdf31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BLevel.cpp">
+    <ClCompile Include="BLevelLayout.cpp">
       <Filter>Source Files\Breakout</Filter>
     </ClCompile>
     <ClCompile Include="BGraphics.cpp">
@@ -45,55 +42,22 @@
     <ClCompile Include="BSound.cpp">
       <Filter>Source Files\Breakout</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BGame_Level_1_2.cpp">
       <Filter>Source Files\Breakout</Filter>
     </ClCompile>
-    <ClCompile Include="BGame_Level_2.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BGame_Level_3.cpp">
+      <Filter>Source Files\Breakout</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TextureRendering.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="PNGImageInput.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageOnScreen.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="NewImageInput.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="OldImageInput.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="GeometricRender.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="ClipRender_Sprites.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimatedSprite.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="RotationTexture.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
     <ClInclude Include="BBrickType.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
-    <ClInclude Include="BLevel.h">
+    <ClInclude Include="BLevelLayout.h">
       <Filter>Source Files\Breakout</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseMotion.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="game-test1.h">
-      <Filter>Source Files\SDL_Test</Filter>
     </ClInclude>
     <ClInclude Include="BTexture.h">
       <Filter>Source Files\Breakout</Filter>
@@ -110,20 +74,14 @@
     <ClInclude Include="BBricks.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
     <ClInclude Include="BSound.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
     <ClInclude Include="BGame_Level_1_2.h">
       <Filter>Source Files\Breakout</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
-      <Filter>Source Files\SDL_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="BGame_Level_2.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="BGame_Level_3.h">
+      <Filter>Source Files\Breakout</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
